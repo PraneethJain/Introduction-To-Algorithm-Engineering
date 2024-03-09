@@ -123,15 +123,26 @@ Commands used:
   [Cache size KB], [512],
 )
 
-== Memory Hierarchy
+== Cache
 
 #table(
-  columns: (1fr, 1fr, 1fr, 1fr),
+  columns: (1fr, 1fr, 1fr, 1fr, 1fr),
   inset: 10pt,
   align: center,
-  [], [*L1*], [*L2*], [*L3*],
-  [*Size*], [512 KB], [4 MB], [16 MB],
-  [*Associativity*], [8-Way Set Associative], [8-Way Set Associative], [16-Way Set Associative],
+  [], [*L1_Data*], [*L1_Instruction*], [*L2*], [*L3*],
+  [*Size*], [8x 32 KB], [8x 32 KB], [8x 512 KB], [16 MB],
+  [*Associativity*], [8-Way Set Associative], [8-Way Set Associative], [8-Way Set Associative],[16-Way Set Associative],
   [**], [], [], [],
   [**], [], [], [],
+)
+
+== RAM
+
+#table(
+  columns: (1fr, 1fr),
+  inset: 10pt,
+  align: center,
+  [*Type*], [DDR4],
+  [*Size*], [16 GB],
+  [*DRAM Frequency*], [1600 MHz],
 )
