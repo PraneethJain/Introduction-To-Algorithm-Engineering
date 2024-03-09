@@ -132,8 +132,7 @@ Commands used:
   [], [*L1_Data*], [*L1_Instruction*], [*L2*], [*L3*],
   [*Size*], [8x 32 KB], [8x 32 KB], [8x 512 KB], [16 MB],
   [*Associativity*], [8-Way Set Associative], [8-Way Set Associative], [8-Way Set Associative],[16-Way Set Associative],
-  [**], [], [], [],
-  [**], [], [], [],
+  [*Access Times*], [1.67ns], [1.67ns], [10.1ns], [75.7ns],
 )
 
 == RAM
