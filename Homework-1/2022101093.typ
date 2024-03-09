@@ -94,3 +94,44 @@ $ "ecc"(13) = 4 > 2*(i-1), "since" i = 2 $
 Thus, we terminate the BFS and find that the diameter is $4$.
 
 We required a total of $2$ BFS calls in this example.
+
+= Question 2
+
+Commands used:
+- `lscpu`
+- `dmidecode`
+
+== CPU
+
+#table(
+  columns: (1fr, 1fr),
+  inset: 10pt,
+  align: center,
+  [Architecture], [x86_64],
+  [Op Modes], [32-bit, 64-bit],
+  [Address sizes], [48-bits physical, 48-bits virtual],
+  [Byte order], [Little Endian],
+  [CPUs], [16],
+  [VendorID, Model Name], [AuthenticAMD, AMD Ryzen 7 5800H],
+  [CPU Family], [25],
+  [Model], [80],
+  [Threads per core], [2],
+  [Cores per socket], [8],
+  [Sockets], [1],
+  [Max MHz], [4463],
+  [Min MHz], [400],
+  [Cache size KB], [512],
+)
+
+== Memory Hierarchy
+
+#table(
+  columns: (1fr, 1fr, 1fr, 1fr),
+  inset: 10pt,
+  align: center,
+  [], [*L1*], [*L2*], [*L3*],
+  [*Size*], [512 KB], [4 MB], [16 MB],
+  [*Associativity*], [8-Way Set Associative], [8-Way Set Associative], [16-Way Set Associative],
+  [**], [], [], [],
+  [**], [], [], [],
+)
