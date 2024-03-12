@@ -145,3 +145,22 @@ Commands used:
   [*Size*], [16 GB],
   [*DRAM Frequency*], [1600 MHz],
 )
+
+= Question 3
+The pseudocode for transposing an $n times n$ matrix $A$ and storing it in $B$ is as follows 
+```
+MatrixTranspose(A, B, N)
+Begin
+  for i = 1 to N do
+    for j = 1 to N do
+      B[j][i] = A[i][j]
+    end-for
+  end-for
+End
+```
+
+Since we are reading matrix $A$ in row-order, we  get $N^2/B$ cache-misses while reading
+
+Since we are writing to matrix $B$, the I/O operations is $N^2$ writes
+
+Thus, the total number of I/O operations is $N^2 + N^2/B$
