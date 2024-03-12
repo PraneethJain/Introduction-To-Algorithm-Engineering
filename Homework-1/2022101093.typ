@@ -97,9 +97,23 @@ We required a total of $2$ BFS calls in this example.
 
 = Question 2
 
-Commands used:
+Commands/Files used:
 - `lscpu`
 - `dmidecode`
+- `/proc/cpuinfo`
+- `/proc/meminfo`
+
+== General
+\
+
+#table(
+  columns: (1fr, 1fr),
+  inset: 10pt,
+  align: center,
+  [*Manufacturer*], [LENOVO],
+  [*Product Name*], [82JU],
+  [*Version*], [Legion 5 15ACH6H],
+)
 
 == CPU
 
