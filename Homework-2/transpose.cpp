@@ -1,8 +1,20 @@
+#include <chrono>
 #include <cstdlib>
 #include <iostream>
 #include <vector>
 
 using Matrix = std::vector<std::vector<int>>;
+
+struct MatrixView
+{
+  size_t row_start, row_end, col_start, col_end;
+  const Matrix &matrix;
+
+  MatrixView(size_t row_start, size_t row_end, size_t col_start, size_t col_end, const Matrix &matrix)
+    : row_start(row_start), row_end(row_end), col_start(col_start), col_end(col_end), matrix(matrix)
+  {
+  }
+};
 
 Matrix generate_random_matrix(size_t n, size_t m)
 {
@@ -53,56 +65,89 @@ Matrix naive_transpose(const Matrix &matrix)
   return transpose_matrix;
 }
 
-Matrix recursive_transpose(const Matrix &matrix)
+void rec_trans(const MatrixView view, Matrix &transpose_matrix)
 {
-  size_t n{matrix.size()};
-  size_t m{matrix[0].size()};
+  size_t n{view.row_end - view.row_start};
+  size_t m{view.col_end - view.col_start};
 
-  if (n == 1 || m == 1)
+  // 4 MB = 1048576 integers = 1024 x 1024 integers
+  if (n <= 1024 && m <= 1024)
   {
-    return naive_transpose(matrix);
-  }
-
-  Matrix transpose_matrix(m, std::vector<int>(n));
-  Matrix a{}, b{};
-  if (n > m)
-  {
-    a.assign(matrix.begin(), matrix.begin() + n / 2);
-    b.assign(matrix.begin() + n / 2, matrix.end());
-    Matrix a_transposed{recursive_transpose(a)}, b_transposed{recursive_transpose(b)};
-    for (size_t j{0}; j < m; ++j)
+    for (size_t i{view.row_start}; i < view.row_end; ++i)
     {
-      std::copy(a_transposed[j].begin(), a_transposed[j].begin() + n / 2, transpose_matrix[j].begin());
-      std::copy(b_transposed[j].begin(), b_transposed[j].end(), transpose_matrix[j].begin() + n / 2);
+      for (size_t j{view.col_start}; j < view.col_end; ++j)
+      {
+        transpose_matrix[j][i] = view.matrix[i][j];
+      }
     }
   }
   else
   {
-    for (size_t i{0}; i < n; ++i)
+    if (n > m)
     {
-      a.push_back(std::vector<int>(matrix[i].begin(), matrix[i].begin() + m / 2));
-      b.push_back(std::vector<int>(matrix[i].begin() + m / 2, matrix[i].end()));
+      rec_trans(
+        MatrixView(view.row_start, (view.row_start + view.row_end) / 2, view.col_start, view.col_end, view.matrix),
+        transpose_matrix);
+      rec_trans(
+        MatrixView((view.row_start + view.row_end) / 2, view.row_end, view.col_start, view.col_end, view.matrix),
+        transpose_matrix);
     }
-    Matrix a_transposed{recursive_transpose(a)}, b_transposed{recursive_transpose(b)};
-    transpose_matrix.assign(a_transposed.begin(), a_transposed.end());
-    transpose_matrix.insert(transpose_matrix.end(), b_transposed.begin(), b_transposed.end());
+    else
+    {
+      rec_trans(
+        MatrixView(view.row_start, view.row_end, view.col_start, (view.col_start + view.col_end) / 2, view.matrix),
+        transpose_matrix);
+      rec_trans(
+        MatrixView(view.row_start, view.row_end, (view.col_start + view.col_end) / 2, view.col_end, view.matrix),
+        transpose_matrix);
+    }
   }
+}
+
+Matrix recursive_transpose(const Matrix &matrix)
+{
+  size_t n{matrix.size()};
+  size_t m{matrix[0].size()};
+  const MatrixView view{MatrixView(0, n, 0, m, matrix)};
+  Matrix transpose_matrix(m, std::vector<int>(n));
+
+  rec_trans(view, transpose_matrix);
 
   return transpose_matrix;
 }
 
 int main(int argc, char **argv)
 {
-  // if (argc != 2)
-  // {
-  //   std::cerr << "Usage: " << argv[0] << " <transpose_strategy>" << std::endl;
-  //   return 1;
-  // }
-  Matrix matrix{generate_random_matrix(5, 7)};
-  print_matrix(matrix);
+  if (argc != 2)
+  {
+    std::cerr << "Usage: " << argv[0] << " <transpose_strategy>" << std::endl;
+    return 1;
+  }
+  int transpose_strategy{atoi(argv[1])};
+  Matrix matrix{generate_random_matrix(9000, 9000)};
 
-  Matrix transpose_matrix{recursive_transpose(matrix)};
-  print_matrix(transpose_matrix);
+  auto start{std::chrono::high_resolution_clock::now()};
+  switch (transpose_strategy)
+  {
+  case 1: {
+    Matrix _{naive_transpose(matrix)};
+    break;
+  }
+  case 2: {
+    Matrix _{recursive_transpose(matrix)};
+    break;
+  }
+  case 3: {
+    break;
+  }
+  default: {
+    std::cout << "Invalid transpose strategy" << std::endl;
+    break;
+  }
+  }
+  auto end{std::chrono::high_resolution_clock::now()};
+  auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+  std::cout << "Execution time: " << duration << " ms" << std::endl;
 
   return 0;
 }
