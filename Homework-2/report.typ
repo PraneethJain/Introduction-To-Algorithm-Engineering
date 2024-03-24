@@ -116,7 +116,7 @@ We construct a directed graph, with edges as part of the DFS tree pointing towar
   \
   Below is a visual representation of the
 
-  chain decomposition of the graph
+  ear decomposition of the graph
 ],
 )
 
@@ -150,6 +150,35 @@ We construct a directed graph, with edges as part of the DFS tree pointing towar
     ```
   , height:80em)
 ]
+
+The algorithm fails if the input graph is not biconnected due to the following reasons:
+
+=== Case 1: The graph is not connected
+
+In this case, the DFS tree itself cannot be formed, instead a forest will be formed. Thus, the back edges will not necessarily form cycles. Thus, the algorithm will fail.
+
+=== Case 2: The graph is connected but not biconnected
+
+In this case, the DFS tree will be formed, but since the graph is not biconnected, there will exist a bridge. This bridge cannot be part of any cycle, and thus will never be visited in the above algorithm. Because of this, the algorithm will fail. For example, consider the graph
+
+#align(center)[
+  #raw-render(
+    ```dot
+    graph {
+      1 -- 2
+      2 -- 3
+      3 -- 1
+
+      1 -- 4
+
+      4 -- 5
+      5 -- 6
+      6 -- 4
+    }
+    ```
+  , height: 20em)
+]
+Here, the edge $1-4$ will not be part of any cycle, and thus there will exist no ear decomposition.
 
 = Question 2
 
