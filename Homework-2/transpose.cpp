@@ -116,6 +116,31 @@ Matrix recursive_transpose(const Matrix &matrix)
   return transpose_matrix;
 }
 
+Matrix cache_aware_transpose(const Matrix &matrix)
+{
+  size_t n{matrix.size()};
+  size_t m{matrix[0].size()};
+  const size_t block_size{1024};
+  Matrix transpose_matrix(m, std::vector<int>(n));
+
+  for (size_t i{0}; i < n; i += block_size)
+  {
+    for (size_t j{0}; j < m; j += block_size)
+    {
+      size_t nn{std::min(block_size, n - i)}, mm{std::min(block_size, m - j)};
+      for (size_t ii{0}; ii < nn; ++ii)
+      {
+        for (size_t jj{0}; jj < mm; ++jj)
+        {
+          transpose_matrix[j + jj][i + ii] = matrix[i + ii][j + jj];
+        }
+      }
+    }
+  }
+
+  return transpose_matrix;
+}
+
 int main(int argc, char **argv)
 {
   if (argc != 2)
@@ -138,6 +163,7 @@ int main(int argc, char **argv)
     break;
   }
   case 3: {
+    Matrix _{cache_aware_transpose(matrix)};
     break;
   }
   default: {
