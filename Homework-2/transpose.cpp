@@ -72,14 +72,8 @@ Matrix recursive_transpose(const Matrix &matrix)
     Matrix a_transposed{recursive_transpose(a)}, b_transposed{recursive_transpose(b)};
     for (size_t j{0}; j < m; ++j)
     {
-      for (size_t i{0}; i < n / 2; ++i)
-      {
-        transpose_matrix[j][i] = a_transposed[j][i];
-      }
-      for (size_t i{n / 2}; i < n; ++i)
-      {
-        transpose_matrix[j][i] = b_transposed[j][i - n / 2];
-      }
+      std::copy(a_transposed[j].begin(), a_transposed[j].begin() + n / 2, transpose_matrix[j].begin());
+      std::copy(b_transposed[j].begin(), b_transposed[j].end(), transpose_matrix[j].begin() + n / 2);
     }
   }
   else
@@ -90,14 +84,8 @@ Matrix recursive_transpose(const Matrix &matrix)
       b.push_back(std::vector<int>(matrix[i].begin() + m / 2, matrix[i].end()));
     }
     Matrix a_transposed{recursive_transpose(a)}, b_transposed{recursive_transpose(b)};
-    for (size_t j{0}; j < m / 2; ++j)
-    {
-      transpose_matrix[j] = a_transposed[j];
-    }
-    for (size_t j{m / 2}; j < m; ++j)
-    {
-      transpose_matrix[j] = b_transposed[j - m / 2];
-    }
+    transpose_matrix.assign(a_transposed.begin(), a_transposed.end());
+    transpose_matrix.insert(transpose_matrix.end(), b_transposed.begin(), b_transposed.end());
   }
 
   return transpose_matrix;
@@ -110,7 +98,7 @@ int main(int argc, char **argv)
   //   std::cerr << "Usage: " << argv[0] << " <transpose_strategy>" << std::endl;
   //   return 1;
   // }
-  Matrix matrix{generate_random_matrix(5, 5)};
+  Matrix matrix{generate_random_matrix(5, 7)};
   print_matrix(matrix);
 
   Matrix transpose_matrix{recursive_transpose(matrix)};
