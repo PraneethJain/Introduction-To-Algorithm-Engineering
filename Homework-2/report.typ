@@ -7,17 +7,148 @@
 
 = Question 1
 
+Consider graph $G$ with $12$ vertices and $18$ edges, as shown below
 #align(center)[
   #raw-render(
     ```dot
     graph {
       1 -- 2
-      1 -- 3
-      1 -- 4
+      2 -- 3
+      3 -- 4
+      4 -- 5
+      5 -- 6
+      6 -- 1
+
+      7 -- 8
+      8 -- 9
+      9 -- 10
+      10 -- 11
+      11 -- 12
+      12 -- 7
+
+      1 -- 7
+      2 -- 8
+      3 -- 9
+      4 -- 10
+      5 -- 11
+      6 -- 12
 
     }
     ```
-  )
+  , height: 60em)
+]
+
+Now, we perform the following DFS traversal, picking the root node as $1$
+$ 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 12 -> 11 -> 10 -> 9 -> 8 -> 7 $
+
+We construct a directed graph, with edges as part of the DFS tree pointing towards the root, and the non-tree edges pointing away from the root
+
+
+
+#grid(
+  columns: 2,
+  gutter: 0pt,
+  align(left)[
+  #raw-render(
+    ```dot
+    digraph {
+      1 -> 6
+      1 -> 7
+      2 -> 8
+      3 -> 9
+      4 -> 10
+      5 -> 11
+      12 -> 11
+
+      11 -> 10
+      10 -> 9
+      9 -> 8
+      8 -> 7
+      7 -> 12
+      12 -> 6
+      6 -> 5
+      5 -> 4
+      4 -> 3
+      3 -> 2
+      2 -> 1
+    }
+    ```
+  , height: 70em)
+], [
+
+  === Back Edge 1 - 6
+  $P_0 = 1-2$
+
+  $P_1 = 1-6-5-4-3-2$
+  
+  $"visited" = {1,2,3,4,5,6}$
+  === Back Edge 1 - 7
+  $P_2 = 1-7-12-6$
+
+  $"visited" = {1,2,3,4,5,6,7,12}$
+  === Back Edge 2 - 8
+  $P_3 = 2-8-7$
+
+  $"visited" = {1,2,3,4,5,6,7,8,12}$
+  === Back Edge 3 - 9
+  $P_4 = 3-9-8$
+
+  $"visited" = {1,2,3,4,5,6,7,8,9,12}$
+  === Back Edge 4 - 10
+  $P_5 = 4-10-9$
+
+  $"visited" = {1,2,3,4,5,6,7,8,9,10,12}$
+  === Back Edge 5 - 11
+  $P_6 = 5-11-10$
+
+  $"visited" = {1,2,3,4,5,6,7,8,9,10,11,12}$
+  === Back Edge 12 - 11
+  $P_7 = 12-11$
+
+  $"visited" = {1,2,3,4,5,6,7,8,9,10,11,12}$
+
+  \
+  \
+
+  ${P_i}$ is the ear decomposition
+
+  \
+  \
+  Below is a visual representation of the
+
+  chain decomposition of the graph
+],
+)
+
+#align(center)[
+  #raw-render(
+    ```dot
+    graph {
+      Edge [penwidth = 5]
+      1 -- 2 [color="red"]
+      2 -- 3  [color="blue"]
+      3 -- 4 [color="blue"]
+      4 -- 5 [color="blue"]
+      5 -- 6 [color="blue"]
+      6 -- 1 [color="blue"]
+
+      7 -- 8 [color="blueviolet"]
+      8 -- 9 [color="brown"]
+      9 -- 10 [color="cyan"]
+      10 -- 11 [color="darkgoldenrod1"]
+      11 -- 12 [color="pink"]
+      12 -- 7 [color="chartreuse"]
+
+      1 -- 7 [color="chartreuse"]
+      2 -- 8 [color="blueviolet"]
+      3 -- 9 [color="brown"]
+      4 -- 10 [color="cyan"]
+      5 -- 11 [color="darkgoldenrod1"]
+      6 -- 12 [color="chartreuse"]
+
+    }
+    ```
+  , height:80em)
 ]
 
 = Question 2
