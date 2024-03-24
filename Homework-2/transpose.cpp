@@ -149,7 +149,7 @@ int main(int argc, char **argv)
     return 1;
   }
   int m{atoi(argv[1])}, n{atoi(argv[2])}, transpose_strategy{atoi(argv[3])};
-  Matrix matrix{generate_random_matrix(9000, 9000)};
+  Matrix matrix{generate_random_matrix(m, n)};
 
   auto start{std::chrono::high_resolution_clock::now()};
   switch (transpose_strategy)
@@ -173,7 +173,7 @@ int main(int argc, char **argv)
   }
   auto end{std::chrono::high_resolution_clock::now()};
   auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-  std::cout << "Execution time: " << duration << " ms" << std::endl;
+  std::cout << duration << std::endl;
 
   return 0;
 }
