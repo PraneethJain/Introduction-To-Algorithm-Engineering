@@ -143,12 +143,12 @@ Matrix cache_aware_transpose(const Matrix &matrix)
 
 int main(int argc, char **argv)
 {
-  if (argc != 2)
+  if (argc != 4)
   {
-    std::cerr << "Usage: " << argv[0] << " <transpose_strategy>" << std::endl;
+    std::cerr << "Usage: " << argv[0] << " <m> <n> <transpose_strategy>" << std::endl;
     return 1;
   }
-  int transpose_strategy{atoi(argv[1])};
+  int m{atoi(argv[1])}, n{atoi(argv[2])}, transpose_strategy{atoi(argv[3])};
   Matrix matrix{generate_random_matrix(9000, 9000)};
 
   auto start{std::chrono::high_resolution_clock::now()};
