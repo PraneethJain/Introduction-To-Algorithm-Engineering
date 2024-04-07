@@ -1,0 +1,4 @@
+bool tarjan()
+{
+  return true;
+}
