@@ -6,3 +6,4 @@
 # Datasets
 - https://snap.stanford.edu/data/ego-Facebook.html
 - https://snap.stanford.edu/data/gemsec-Deezer.html
+- https://snap.stanford.edu/data/twitch-social-networks.html
