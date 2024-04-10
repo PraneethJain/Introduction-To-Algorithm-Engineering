@@ -8,13 +8,13 @@ Edges make_edges(std::stack<Edge> &stack, const Edge stop_edge)
   Edges es{};
   while (!stack.empty() && stack.top() != stop_edge)
   {
-    es.emplace(stack.top());
+    es.emplace_back(stack.top());
     stack.pop();
   }
 
   if (!stack.empty())
   {
-    es.emplace(stack.top());
+    es.emplace_back(stack.top());
     stack.pop();
   }
 
@@ -39,7 +39,7 @@ void DFS(const Graph &g, int u, std::vector<int> &low, std::vector<int> &disc, s
 
       if ((par[u] == -1 && children > 1) || (par[u] != -1 && low[v] >= disc[u]))
       {
-        bcc.insert(make_edges(stack, {u, v}));
+        bcc.emplace_back(make_edges(stack, {u, v}));
       }
     }
     else if (par[u] != v)
@@ -67,7 +67,7 @@ BCC tarjan(const Graph &g)
     if (disc[i] == -1)
     {
       DFS(g, i, low, disc, par, stack, bcc);
-      bcc.insert(make_edges(stack, {-1, -1}));
+      bcc.emplace_back(make_edges(stack, {-1, -1}));
     }
   }
 

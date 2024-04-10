@@ -38,13 +38,13 @@ Chains chain_decomposition(const Graph &g, const Graph &dfs_tree, int n, std::ve
       Edges current_chain{};
       if (visited_nodes[p] and visited_nodes[q])
       {
-        current_chain.emplace(p, q);
-        chains.emplace(current_chain);
+        current_chain.emplace_back(p, q);
+        chains.emplace_back(current_chain);
         continue;
       }
       while (not(visited_nodes[p] and visited_nodes[q]))
       {
-        current_chain.emplace(p, q);
+        current_chain.emplace_back(p, q);
         visited_nodes[p] = true;
         p = q;
         if (dfs_tree[q].empty())
@@ -52,7 +52,7 @@ Chains chain_decomposition(const Graph &g, const Graph &dfs_tree, int n, std::ve
         else
           q = dfs_tree[q][0];
       }
-      chains.emplace(current_chain);
+      chains.emplace_back(current_chain);
     }
   }
 
@@ -62,7 +62,7 @@ Chains chain_decomposition(const Graph &g, const Graph &dfs_tree, int n, std::ve
     {
       visited_nodes[i] = true;
       visited_nodes[dfs_tree[i][0]] = true;
-      chains.emplace(Edges{{i, dfs_tree[i][0]}});
+      chains.emplace_back(Edges{{i, dfs_tree[i][0]}});
     }
   }
 

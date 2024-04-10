@@ -3,7 +3,6 @@
 
 #include <algorithm>
 #include <iostream>
-#include <set>
 #include <utility>
 #include <vector>
 
@@ -11,8 +10,8 @@ using AdjList = std::vector<int>;
 using Graph = std::vector<AdjList>;
 
 using Edge = std::pair<int, int>;
-using Edges = std::set<Edge>;
-using Chains = std::set<Edges>;
-using BCC = std::set<Edges>;
+using Edges = std::vector<Edge>;
+using Chains = std::vector<Edges>;
+using BCC = std::vector<Edges>;
 
 #endif
