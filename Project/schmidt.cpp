@@ -20,9 +20,10 @@ int DFS(const Graph &g, Graph &dfs_tree, int u, std::vector<int> &in_times, int 
   return time;
 }
 
-void chain_decomposition(const Graph &g, const Graph &dfs_tree, Chains &chains, int n, std::vector<int> in_times,
-                        std::vector<bool> visited_nodes)
+Chains chain_decomposition(const Graph &g, const Graph &dfs_tree, int n, std::vector<int> in_times,
+                           std::vector<bool> visited_nodes)
 {
+  Chains chains{};
   for (int i{0}; i < n; ++i)
   {
     for (int v : g[i])
@@ -43,7 +44,7 @@ void chain_decomposition(const Graph &g, const Graph &dfs_tree, Chains &chains, 
       }
       while (not(visited_nodes[p] and visited_nodes[q]))
       {
-        current_chain.insert(std::make_pair(p, q));
+        current_chain.emplace(p, q);
         visited_nodes[p] = true;
         p = q;
         if (dfs_tree[q].empty())
@@ -59,13 +60,13 @@ void chain_decomposition(const Graph &g, const Graph &dfs_tree, Chains &chains, 
   {
     if (not visited_nodes[i] and not dfs_tree[i].empty())
     {
-      Edges bridge{};
-      bridge.insert(std::make_pair(i, dfs_tree[i][0]));
       visited_nodes[i] = true;
       visited_nodes[dfs_tree[i][0]] = true;
-      chains.insert(bridge);
+      chains.emplace(Edges{{i, dfs_tree[i][0]}});
     }
   }
+
+  return chains;
 }
 
 BCC schmidt(const Graph &g)
@@ -90,10 +91,9 @@ BCC schmidt(const Graph &g)
   for (int i{0}; i < n; ++i)
     m += g[i].size();
   m /= 2;
-  Chains chains{};
   std::vector<bool> visited_nodes(n, false);
 
-  chain_decomposition(g, dfs_tree, chains, n, inTimes, visited_nodes);
+  Chains chains{chain_decomposition(g, dfs_tree, n, inTimes, visited_nodes)};
 
   for (Edges chain : chains)
   {
