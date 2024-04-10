@@ -27,11 +27,29 @@ Graph read_graph(std::string filename)
   return g;
 }
 
-int main()
+int main(int argc, char *argv[])
 {
-  Graph g{read_graph("test.in")};
+  if (argc != 2)
+  {
+    std::cout << "Enter the input file name as argument" << std::endl;
+    return 0;
+  }
+
+  Graph g{read_graph(argv[1])};
   BCC a{tarjan(g)}, b{schmidt(g)};
+
+  std::cout << "Tarjan output: " << std::endl;
   for (Edges es : a)
+  {
+    for (Edge e : es)
+    {
+      std::cout << e << " ";
+    }
+    std::cout << std::endl;
+  }
+
+  std::cout << "Schmidt output: " << std::endl;
+  for (Edges es : b)
   {
     for (Edge e : es)
     {
