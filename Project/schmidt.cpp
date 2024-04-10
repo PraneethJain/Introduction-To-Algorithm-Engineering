@@ -6,63 +6,63 @@ template <typename T1, typename T2> std::ostream &operator<<(std::ostream &os, c
   return os;
 }
 
-int DFS(const Graph &g, Graph &dfsTree, int u, std::vector<int> &inTimes, int time)
+int DFS(const Graph &g, Graph &dfs_tree, int u, std::vector<int> &in_times, int time)
 {
-  inTimes[u] = time;
+  in_times[u] = time;
   for (int v : g[u])
   {
-    if (inTimes[v] != -1)
+    if (in_times[v] != -1)
       continue;
 
-    dfsTree[v].push_back(u);
-    time = DFS(g, dfsTree, v, inTimes, ++time);
+    dfs_tree[v].push_back(u);
+    time = DFS(g, dfs_tree, v, in_times, ++time);
   }
   return time;
 }
 
-void ChainDecomposition(const Graph &g, const Graph &dfsTree, Chains &chains, int n, std::vector<int> inTimes,
-                        std::vector<bool> visitedNodes)
+void chain_decomposition(const Graph &g, const Graph &dfs_tree, Chains &chains, int n, std::vector<int> in_times,
+                        std::vector<bool> visited_nodes)
 {
   for (int i{0}; i < n; ++i)
   {
     for (int v : g[i])
     {
-      if ((dfsTree[i].size() > 0 and dfsTree[i][0] == v) or (dfsTree[v].size() > 0 and dfsTree[v][0] == i))
+      if ((dfs_tree[i].size() > 0 and dfs_tree[i][0] == v) or (dfs_tree[v].size() > 0 and dfs_tree[v][0] == i))
         continue;
 
-      if (dfsTree[v].size() == 0 or inTimes[i] > inTimes[v])
+      if (dfs_tree[v].size() == 0 or in_times[i] > in_times[v])
         continue;
 
       int p{i}, q{v};
-      Edges currentChain{};
-      if (visitedNodes[p] and visitedNodes[q])
+      Edges current_chain{};
+      if (visited_nodes[p] and visited_nodes[q])
       {
-        currentChain.insert(std::make_pair(p, q));
-        chains.insert(currentChain);
+        current_chain.emplace(p, q);
+        chains.emplace(current_chain);
         continue;
       }
-      while (not(visitedNodes[p] and visitedNodes[q]))
+      while (not(visited_nodes[p] and visited_nodes[q]))
       {
-        currentChain.insert(std::make_pair(p, q));
-        visitedNodes[p] = true;
+        current_chain.insert(std::make_pair(p, q));
+        visited_nodes[p] = true;
         p = q;
-        if (dfsTree[q].empty())
+        if (dfs_tree[q].empty())
           q = q;
         else
-          q = dfsTree[q][0];
+          q = dfs_tree[q][0];
       }
-      chains.insert(currentChain);
+      chains.emplace(current_chain);
     }
   }
 
   for (int i{0}; i < n; ++i)
   {
-    if (not visitedNodes[i] and not dfsTree[i].empty())
+    if (not visited_nodes[i] and not dfs_tree[i].empty())
     {
       Edges bridge{};
-      bridge.insert(std::make_pair(i, dfsTree[i][0]));
-      visitedNodes[i] = true;
-      visitedNodes[dfsTree[i][0]] = true;
+      bridge.insert(std::make_pair(i, dfs_tree[i][0]));
+      visited_nodes[i] = true;
+      visited_nodes[dfs_tree[i][0]] = true;
       chains.insert(bridge);
     }
   }
@@ -71,18 +71,17 @@ void ChainDecomposition(const Graph &g, const Graph &dfsTree, Chains &chains, in
 BCC schmidt(const Graph &g)
 {
   BCC bcc{};
-  bcc.emplace(Edges{{g[0][0], g[0][1]}, {g[1][0], g[1][1]}});
 
   int n{static_cast<int>(g.size())};
-  Graph dfsTree(n, std::vector<int>{});
+  Graph dfs_tree(n, std::vector<int>{});
   std::vector<int> inTimes(n, -1);
 
-  int time = 0;
+  int time{0};
   for (int u{0}; u < n; ++u)
   {
     if (inTimes[u] == -1)
     {
-      time = DFS(g, dfsTree, u, inTimes, time);
+      time = DFS(g, dfs_tree, u, inTimes, time);
       ++time;
     }
   }
@@ -92,9 +91,9 @@ BCC schmidt(const Graph &g)
     m += g[i].size();
   m /= 2;
   Chains chains{};
-  std::vector<bool> visitedNodes(n, false);
+  std::vector<bool> visited_nodes(n, false);
 
-  ChainDecomposition(g, dfsTree, chains, n, inTimes, visitedNodes);
+  chain_decomposition(g, dfs_tree, chains, n, inTimes, visited_nodes);
 
   for (Edges chain : chains)
   {
