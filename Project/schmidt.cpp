@@ -86,10 +86,62 @@ Chains chain_decomposition(const Graph &g, const Graph &dfs_tree, int n, std::ve
   return chains;
 }
 
+BCC make_components(const Chains &chains, int n)
+{
+  std::vector<std::vector<int>> component_indices(n);
+  BCC bcc{};
+  int component_count{0};
+
+  for (Edges chain : chains)
+  {
+    if (chain[0].first == chain[chain.size() - 1].second)
+    {
+      bcc.emplace_back(chain.begin(), chain.end());
+      for (Edge edge : chain)
+      {
+        component_indices[edge.first].emplace_back(component_count);
+      }
+      ++component_count;
+      continue;
+    }
+
+    int v1{chain[0].first}, v2{chain[chain.size() - 1].second};
+    int component_index{-1};
+    for (int i : component_indices[v1])
+    {
+      for (int j : component_indices[v2])
+      {
+        if (i == j)
+        {
+          component_index = i;
+          break;
+        }
+      }
+      if (component_index != -1)
+        break;
+    }
+
+    if (component_index == -1)
+    {
+      bcc.emplace_back(chain.begin(), chain.end());
+      component_indices[chain[0].first].emplace_back(component_count);
+      component_indices[chain[0].second].emplace_back(component_count);
+      ++component_count;
+      continue;
+    }
+
+    bcc[component_index].insert(bcc[component_index].end(), chain.begin(), chain.end());
+    for (int i{0}; i < (int)chain.size() - 1; ++i)
+    {
+      component_indices[chain[i].second].emplace_back(component_index);
+    }
+  }
+
+  return bcc;
+}
+
 BCC schmidt(const Graph &g)
 {
-  BCC bcc{};
-
   int n{static_cast<int>(g.size())};
   Graph dfs_tree(n, std::vector<int>{});
   std::vector<int> in_times(n, -1);
@@ -110,15 +162,7 @@ BCC schmidt(const Graph &g)
   // m /= 2;
 
   Chains chains{chain_decomposition(g, dfs_tree, n, in_times)};
-
-  for (Edges chain : chains)
-  {
-    for (Edge edge : chain)
-    {
-      std::cout << edge << " ";
-    }
-    std::cout << std::endl;
-  }
+  BCC bcc{make_components(chains, n)};
 
   return bcc;
 }
