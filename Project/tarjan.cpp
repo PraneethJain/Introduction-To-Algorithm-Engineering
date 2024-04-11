@@ -68,8 +68,9 @@ BCC tarjan(const Graph &g)
     {
       DFS(g, i, low, disc, par, stack, bcc);
       bcc.emplace_back(make_edges(stack, {-1, -1}));
+      if (bcc.back().empty())
+        bcc.pop_back();
     }
   }
-
   return bcc;
 }
