@@ -1,26 +1,22 @@
 #include "include/schmidt.hpp"
+#include <queue>
 
-template <typename T1, typename T2> std::ostream &operator<<(std::ostream &os, const std::pair<T1, T2> &pair)
-{
-  os << "(" << pair.first << ", " << pair.second << ")";
-  return os;
-}
-
-int DFS(const Graph &g, Graph &dfs_tree, int u, std::vector<int> &in_times, int time)
+int DFS(const Graph &g, Graph &dfs_tree, int u, std::vector<int> &in_times, int time, std::queue<int> &q)
 {
   in_times[u] = time;
+  q.push(u);
   for (int v : g[u])
   {
     if (in_times[v] != -1)
       continue;
 
     dfs_tree[v].push_back(u);
-    time = DFS(g, dfs_tree, v, in_times, ++time);
+    time = DFS(g, dfs_tree, v, in_times, ++time, q);
   }
   return time;
 }
 
-Chains chain_decomposition(const Graph &g, const Graph &dfs_tree, int n, std::vector<int> in_times)
+Chains chain_decomposition(const Graph &g, const Graph &dfs_tree, int n, std::vector<int> in_times, std::queue<int> q)
 {
   Chains chains{};
   std::vector<bool> visited_nodes(n, false);
@@ -32,8 +28,10 @@ Chains chain_decomposition(const Graph &g, const Graph &dfs_tree, int n, std::ve
       visited_dfs_edges[i] = true;
   }
 
-  for (int i{0}; i < n; ++i)
+  while (!q.empty())
   {
+    int i{q.front()};
+    q.pop();
     for (int v : g[i])
     {
       if ((dfs_tree[i].size() > 0 and dfs_tree[i][0] == v) or (dfs_tree[v].size() > 0 and dfs_tree[v][0] == i))
@@ -145,23 +143,19 @@ BCC schmidt(const Graph &g)
   int n{static_cast<int>(g.size())};
   Graph dfs_tree(n, std::vector<int>{});
   std::vector<int> in_times(n, -1);
+  std::queue<int> q{};
 
   int time{0};
   for (int u{0}; u < n; ++u)
   {
     if (in_times[u] == -1)
     {
-      time = DFS(g, dfs_tree, u, in_times, time);
+      time = DFS(g, dfs_tree, u, in_times, time, q);
       ++time;
     }
   }
 
-  // int m{0};
-  // for (int i{0}; i < n; ++i)
-  //   m += g[i].size();
-  // m /= 2;
-
-  Chains chains{chain_decomposition(g, dfs_tree, n, in_times)};
+  Chains chains{chain_decomposition(g, dfs_tree, n, in_times, q)};
   BCC bcc{make_components(chains, n)};
 
   return bcc;
