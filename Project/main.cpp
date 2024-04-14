@@ -1,6 +1,7 @@
 #include "include/schmidt.hpp"
 #include "include/tarjan.hpp"
 #include <algorithm>
+#include <chrono>
 #include <fstream>
 #include <iostream>
 
@@ -77,10 +78,17 @@ int main(int argc, char *argv[])
   }
 
   Graph g{read_graph(argv[1])};
-  BCC a{tarjan(g)}, b{schmidt(g)};
+  auto x1{std::chrono::high_resolution_clock::now()};
+  BCC a{tarjan(g)};
+  auto x2{std::chrono::high_resolution_clock::now()};
+  BCC b{schmidt(g)};
+  auto x3{std::chrono::high_resolution_clock::now()};
 
-  std::cout << "Tarjan output: " << a.size() << std::endl;
-  std::cout << "Schmidt output: " << b.size() << std::endl;
+  auto tarjan_time = std::chrono::duration_cast<std::chrono::milliseconds>(x2 - x1).count();
+  auto schmidt_time = std::chrono::duration_cast<std::chrono::milliseconds>(x3 - x2).count();
+
+  std::cout << "Tarjan time: " << tarjan_time << "ms" << std::endl;
+  std::cout << "Schmidt time: " << schmidt_time << "ms" << std::endl;
 
   bool are_same{compare(a, b)};
   if (are_same)
