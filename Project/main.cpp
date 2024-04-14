@@ -1,5 +1,6 @@
 #include "include/schmidt.hpp"
 #include "include/tarjan.hpp"
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 
@@ -27,6 +28,46 @@ Graph read_graph(std::string filename)
   return g;
 }
 
+bool compare(Chains a, Chains b)
+{
+  const auto order = [](Chains &c) {
+    for (Edges &es : c)
+    {
+      for (Edge &e : es)
+      {
+        if (e.first > e.second)
+        {
+          std::swap(e.first, e.second);
+        }
+      }
+      std::sort(es.begin(), es.end());
+    }
+    std::sort(c.begin(), c.end());
+  };
+
+  order(a);
+  order(b);
+
+  if (a.size() != b.size())
+    return false;
+
+  int n{static_cast<int>(a.size())};
+  for (int i{0}; i < n; ++i)
+  {
+    if (a[i].size() != b[i].size())
+      return false;
+
+    int m{static_cast<int>(a[i].size())};
+    for (int j{0}; j < m; ++j)
+    {
+      if (a[i][j] != b[i][j])
+        return false;
+    }
+  }
+
+  return true;
+}
+
 int main(int argc, char *argv[])
 {
   if (argc != 2)
@@ -38,25 +79,14 @@ int main(int argc, char *argv[])
   Graph g{read_graph(argv[1])};
   BCC a{tarjan(g)}, b{schmidt(g)};
 
-  std::cout << "Tarjan output: " << std::endl;
-  for (Edges es : a)
-  {
-    for (Edge e : es)
-    {
-      std::cout << e << " ";
-    }
-    std::cout << std::endl;
-  }
+  std::cout << "Tarjan output: " << a.size() << std::endl;
+  std::cout << "Schmidt output: " << b.size() << std::endl;
 
-  std::cout << "Schmidt output: " << std::endl;
-  for (Edges es : b)
-  {
-    for (Edge e : es)
-    {
-      std::cout << e << " ";
-    }
-    std::cout << std::endl;
-  }
+  bool are_same{compare(a, b)};
+  if (are_same)
+    std::cout << ":)" << std::endl;
+  else
+    std::cout << ":(" << std::endl;
 
   return 0;
 }
