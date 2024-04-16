@@ -1,4 +1,5 @@
 #include "include/schmidt.hpp"
+#include <chrono>
 #include <queue>
 
 int DFS(const Graph &g, Graph &dfs_tree, int u, std::vector<int> &in_times, int time, std::queue<int> &q)
@@ -140,6 +141,9 @@ BCC make_components(const Chains &chains, int n)
 
 BCC schmidt(const Graph &g)
 {
+
+  auto x1{std::chrono::high_resolution_clock::now()};
+
   int n{static_cast<int>(g.size())};
   Graph dfs_tree(n, std::vector<int>{});
   std::vector<int> in_times(n, -1);
@@ -156,7 +160,16 @@ BCC schmidt(const Graph &g)
   }
 
   Chains chains{chain_decomposition(g, dfs_tree, n, in_times, q)};
+  auto x2{std::chrono::high_resolution_clock::now()};
   BCC bcc{make_components(chains, n)};
+  auto x3{std::chrono::high_resolution_clock::now()};
+
+  auto t1{std::chrono::duration_cast<std::chrono::milliseconds>(x2 - x1).count()};
+  auto t2{std::chrono::duration_cast<std::chrono::milliseconds>(x3 - x2).count()};
+
+  std::cout << "Schmidt Check Time " << t1 << "ms" << std::endl;
+
+  std::cout << "Schmidt Find Time " << t2 << "ms" << std::endl;
 
   return bcc;
 }
