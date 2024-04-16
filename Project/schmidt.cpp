@@ -1,6 +1,5 @@
 #include "include/schmidt.hpp"
 #include <chrono>
-#include <queue>
 
 int DFS(const Graph &g, Graph &dfs_tree, int u, std::vector<int> &in_times, int time, std::vector<int> &node_order)
 {
@@ -159,7 +158,6 @@ BCC schmidt(const Graph &g)
     }
   }
 
-  auto x1{std::chrono::high_resolution_clock::now()};
   Chains chains{chain_decomposition(g, dfs_tree, n, in_times, node_order)};
   auto x2{std::chrono::high_resolution_clock::now()};
   BCC bcc{make_components(chains, n)};
