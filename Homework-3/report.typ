@@ -170,6 +170,20 @@ number of articulation points. From the above question, the required memory is $
 i.e, $O((4n^2)/9)$.
 
 = Problem 2
+*To Prove*: All $(u, v) in.not E(H)$ with $u$ and $v$ in different clusters must
+have been removed from $E^'$ in Phase 2 of the spanner algorithm
+
+*Proof*:
+
+Let $(u, v) in.not E(H)$ be an arbitrary edge between different clusters. Since
+the edge was discarded, it was either discarded in phase 1 or phase 2.
+
+Assume the edge was discarded in phase 1. The only edges discarded in phase 1
+are those belonding to the same cluster. This means the edge $(u, v)$ is in the
+same cluster. This is a contradiction. Thus, the edge must have been discared in
+phase 2.
+
+Hence, proven.
 
 = Problem 3
 
