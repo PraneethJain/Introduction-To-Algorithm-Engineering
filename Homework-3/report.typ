@@ -165,6 +165,10 @@ with exact values depicted above.
 
 == (ii)
 
+The APSP algorithm requires a matrix of size $a times a$, where $a$ is the
+number of articulation points. From the above question, the required memory is $(2n)/3 * (2n)/3$ integers,
+i.e, $O((4n^2)/9)$.
+
 = Problem 2
 
 = Problem 3
