@@ -176,7 +176,8 @@ have been removed from $E^'$ in Phase 2 of the spanner algorithm
 *Proof*:
 
 Let $(u, v) in.not E(H)$ be an arbitrary edge between different clusters. Since
-the edge was discarded, it was either discarded in phase 1 or phase 2.
+the edge does not belong to the t-spanner, it was discarded. Since the edge was
+discarded, it was either discarded in phase 1 or phase 2.
 
 Assume the edge was discarded in phase 1. The only edges discarded in phase 1
 are those belonding to the same cluster. This means the edge $(u, v)$ is in the
