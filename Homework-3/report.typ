@@ -187,4 +187,28 @@ phase 2.
 Hence, proven.
 
 = Problem 3
+*To Prove*: If an edge $(u, v) in E$ is not present in $E(H)$ at the end of the
+first phase, then the weight of edge $(u, v)$ is greater than or equal to the
+weight of the edge $(v, w)$, where w is the center of the cluster to which v
+belongs.
 
+*Proof*:
+
+Let $(u, v) in E$ and $(u, v) in.not E(H)$ (after phase 1) be an arbitrary edge
+
+*Case 1*: $v$ is sampled
+
+$v$ is the center of the cluster, thus $w$ = $v$, and weight of $(v, w) = 0$.
+
+Thus, weight of $(u, v)$ is greater than or equal to 0.
+
+*Case 2*: $v$ is not sampled
+
+Assume the weight of edge $(u, v)$ is less than weight of edge $(v, w)$. Then,
+the edge $(u, v)$ would be moved to $E(H)$. This is a contradiction, since $(u, v) in.not E(H)$.
+
+Thus, for all edges $(u, v) in E$ such that $(u, v) in.not E(H)$ (after phase
+1), the weight of edge $(u, v)$ is greater than or equal to the weight of the
+edge $(v, w)$
+
+Hence, proven.
