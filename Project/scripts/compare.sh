@@ -6,5 +6,5 @@ make
 for filename in ./input_graphs/*; do
   echo $filename
   ./main $filename
-  python3 truth.py <<< $filename
+  python3 scripts/truth.py <<< $filename
 done
