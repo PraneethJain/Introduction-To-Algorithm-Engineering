@@ -87,8 +87,7 @@ int main(int argc, char *argv[])
   auto tarjan_time = std::chrono::duration_cast<std::chrono::milliseconds>(x2 - x1).count();
   auto schmidt_time = std::chrono::duration_cast<std::chrono::milliseconds>(x3 - x2).count();
 
-  std::cout << "Tarjan time: " << tarjan_time << "ms" << std::endl;
-  std::cout << "Schmidt time: " << schmidt_time << "ms" << std::endl;
+  std::cout << tarjan_time << " " << schmidt_time << std::endl;
 
   bool are_same{compare(a, b)};
   if (are_same)

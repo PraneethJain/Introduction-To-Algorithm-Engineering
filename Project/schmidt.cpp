@@ -166,9 +166,7 @@ BCC schmidt(const Graph &g)
   auto t1{std::chrono::duration_cast<std::chrono::milliseconds>(x2 - x1).count()};
   auto t2{std::chrono::duration_cast<std::chrono::milliseconds>(x3 - x2).count()};
 
-  std::cout << "Schmidt Check Time " << t1 << "ms" << std::endl;
-
-  std::cout << "Schmidt Find Time " << t2 << "ms" << std::endl;
+  std::cout << t1 << " " << t2 << std::endl;
 
   return bcc;
 }
