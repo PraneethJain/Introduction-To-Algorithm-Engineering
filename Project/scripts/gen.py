@@ -5,6 +5,8 @@ k = 1_000_000
 sh(f"mkdir -p input_graphs/genrang/{k}")
 for i in range(2, 51):
     print(i)
-    n = (1 - 2 * i + isqrt((2 * i - 1) ** 2 + 8 * k * i)) // 2
+    n = (i - 200 + isqrt((200 - i) ** 2 + 800 * k * i)) // (2 * i)
     m = k - n
-    sh(f"genrang -e{m} -g {n} 1 | showg -e | sed '1,2d' > input_graphs/genrang/{k}/{i}.txt")
+    sh(
+        f"genrang -e{m} -g {n} 1 | showg -e | sed '1,2d' > input_graphs/genrang/{k}/{i}.txt"
+    )
