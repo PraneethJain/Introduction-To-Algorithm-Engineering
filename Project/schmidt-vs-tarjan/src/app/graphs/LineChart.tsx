@@ -59,6 +59,7 @@ const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
       .call(xAxis);
     g.append("g").attr("transform", `translate(${margin.left},0)`).call(yAxis);
 
+    // line generator
     const lineGenerator = d3
       .line<number>()
       .x((_, i) => xScale(graphTimes.density[i]))
@@ -66,6 +67,9 @@ const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
 
     // transition
     const transition = d3.transition().ease(d3.easeSin).duration(2000);
+
+    // tooltip
+    let tooltip = d3.select("body").append("div").attr("class", "tooltip");
 
     // append paths
     const appendPath = (times: number[], color: string) => {
@@ -90,7 +94,42 @@ const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
         .attr("cx", (_, i) => xScale(graphTimes.density[i]) + margin.left)
         .attr("cy", yScale)
         .attr("r", 3)
-        .attr("fill", color);
+        .attr("fill", color)
+        .on("mouseover", function (event, d) {
+          tooltip.style("display", "block");
+          d3.select(this)
+            .transition()
+            .duration(200)
+            .style("stroke", "black")
+            .style("stroke-width", "3px");
+        })
+        .on("mousemove", function (event, d) {
+          let idx = times.indexOf(d);
+          tooltip
+            .html(
+              "Vertices: " +
+                graphTimes.n[idx] +
+                "<br>Edges: " +
+                graphTimes.m[idx] +
+                "<br>Density: " +
+                graphTimes.density[idx] +
+                "<br>Time: " +
+                times[idx]
+            )
+            .style("position", "absolute")
+            .style("left", `${event.pageX + 10}px`)
+            .style("top", `${event.pageY - 10}px`)
+            .style("background-color", "pink")
+            .style("border-radius","0.5vw")
+        })
+        .on("mouseleave", function (event) {
+          tooltip.style("display", "none");
+          d3.select(this)
+            .transition()
+            .duration(200)
+            .style("stroke", "black")
+            .style("stroke-width", "0px");
+        });
     };
     appendPath(graphTimes.tarjanTime, colors[0]);
     appendPath(graphTimes.schmidtCheckTime, colors[1]);
@@ -98,7 +137,6 @@ const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
     appendPath(graphTimes.schmidtTime, colors[3]);
 
     // legend
-
     const legend = d3.select("#legend");
     const gLegend = legend.append("g");
     gLegend
