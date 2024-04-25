@@ -27,14 +27,14 @@ type timeType = { time: number };
 export const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
   useEffect(() => {
     // get the array for densities
-    var graphDensities: number[] = [];
+    let graphDensities: number[] = [];
     for (let i = 0; i < graphTimes.length; ++i) {
       let curData = graphTimes[i];
       graphDensities.push((curData.m * 100) / (curData.n * (curData.n - 1)));
     }
 
     // get time arrays
-    var tarjanTimes: timeType[] = [],
+    let tarjanTimes: timeType[] = [],
       schmidtCheckTimes: timeType[] = [],
       schmidtFindTimes: timeType[] = [],
       schmidtTimes: timeType[] = [],
@@ -84,8 +84,8 @@ export const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
       .attr("transform", `translate(${margin.left},${margin.top})`);
 
     // define and render axes
-    var xAxis = d3.axisBottom(xScale);
-    var yAxis = d3.axisLeft(yScale);
+    let xAxis = d3.axisBottom(xScale);
+    let yAxis = d3.axisLeft(yScale);
     g.append("g")
       .attr("transform", `translate(${margin.left},${height})`)
       .call(xAxis);
@@ -97,7 +97,7 @@ export const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
       .y((d: timeType) => yScale(d.time));
 
     // append paths
-    var tarjanPath = g
+    let tarjanPath = g
       .append("path")
       .datum<timeType[]>(tarjanTimes)
       .attr("stroke", "black")
@@ -105,7 +105,7 @@ export const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
       .attr("fill", "none")
       .attr("d", lineGenerator)
       .attr("transform", `translate(${margin.left},0)`);
-    var schmidtCheckPath = g
+    let schmidtCheckPath = g
       .append("path")
       .datum<timeType[]>(schmidtCheckTimes)
       .attr("stroke", "red")
@@ -113,7 +113,7 @@ export const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
       .attr("fill", "none")
       .attr("d", lineGenerator)
       .attr("transform", `translate(${margin.left},0)`);
-    var schmidtFindPath = g
+    let schmidtFindPath = g
       .append("path")
       .datum<timeType[]>(schmidtFindTimes)
       .attr("stroke", "blue")
@@ -121,7 +121,7 @@ export const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
       .attr("fill", "none")
       .attr("d", lineGenerator)
       .attr("transform", `translate(${margin.left},0)`);
-    var schmidtPath = g
+    let schmidtPath = g
       .append("path")
       .datum<timeType[]>(schmidtTimes)
       .attr("stroke", "green")
@@ -129,6 +129,6 @@ export const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
       .attr("fill", "none")
       .attr("d", lineGenerator)
       .attr("transform", `translate(${margin.left},0)`);
-  }, graphTimes);
+  }, [graphTimes]);
   return <svg height={"80vh"} width={"80vw"} id="linechart"></svg>;
 };
