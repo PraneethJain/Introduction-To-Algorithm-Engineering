@@ -26,6 +26,8 @@ Graph read_graph(std::string filename)
     g[v].push_back(u);
   }
 
+  std::cout << n << " " << m << std::endl;
+  
   return g;
 }
 
