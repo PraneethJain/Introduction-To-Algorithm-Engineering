@@ -10,20 +10,6 @@ interface LineChartProps {
 
 type timeType = { time: number };
 
-// function lineGeneratorFunction(
-//   graphDensities: number[],
-//   dataType: keyof typeof Number,
-//   graphTimes: TimeData[],
-//   xScale: Function,
-//   yScale: Function
-// ) {
-//   return d3
-//     .line<TimeData>()
-//     .x((d, i) =>
-//       xScale(graphDensities[i]).y((d: TimeData) => yScale(d[dataType]))
-//     );
-// }
-
 export const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
   useEffect(() => {
     // get the array for densities
@@ -52,7 +38,7 @@ export const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
     const chartHeight = parseFloat(d3.select("#linechart").style("height"));
 
     // declare margins and inner dimensions
-    const margin = { top: 10, right: 10, bottom: 10, left: 20 };
+    const margin = { top: 10, right: 10, bottom: 20, left: 20 };
     const width = chartWidth - margin.left - margin.right;
     const height = chartHeight - margin.top - margin.bottom;
 
@@ -96,6 +82,9 @@ export const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
       .x((d: timeType, i) => xScale(graphDensities[i]))
       .y((d: timeType) => yScale(d.time));
 
+    // transition
+    const transition = d3.transition().ease(d3.easeSin).duration(2000);
+
     // append paths
     let tarjanPath = g
       .append("path")
@@ -105,6 +94,24 @@ export const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
       .attr("fill", "none")
       .attr("d", lineGenerator)
       .attr("transform", `translate(${margin.left},0)`);
+    let tarjanLength = tarjanPath.node()?.getTotalLength();
+    tarjanPath
+      .attr("stroke-dashoffset", tarjanLength as number)
+      .attr("stroke-dasharray", tarjanLength as number)
+      .transition(transition)
+      .attr("stroke-dashoffset", 0);
+    g.selectAll("dots")
+      .data(tarjanTimes)
+      .enter()
+      .append("circle")
+      .attr("cx", function (d, i) {
+        return xScale(graphDensities[i]) + margin.left;
+      })
+      .attr("cy", function (d) {
+        return yScale(d.time);
+      })
+      .attr("r", 3)
+      .attr("fill", "black");
     let schmidtCheckPath = g
       .append("path")
       .datum<timeType[]>(schmidtCheckTimes)
@@ -113,6 +120,24 @@ export const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
       .attr("fill", "none")
       .attr("d", lineGenerator)
       .attr("transform", `translate(${margin.left},0)`);
+    let schmidtCheckLength = schmidtCheckPath.node()?.getTotalLength();
+    schmidtCheckPath
+      .attr("stroke-dashoffset", schmidtCheckLength as number)
+      .attr("stroke-dasharray", schmidtCheckLength as number)
+      .transition(transition)
+      .attr("stroke-dashoffset", 0);
+    g.selectAll("dots")
+      .data(schmidtCheckTimes)
+      .enter()
+      .append("circle")
+      .attr("cx", function (d, i) {
+        return xScale(graphDensities[i]) + margin.left;
+      })
+      .attr("cy", function (d) {
+        return yScale(d.time);
+      })
+      .attr("r", 3)
+      .attr("fill", "red");
     let schmidtFindPath = g
       .append("path")
       .datum<timeType[]>(schmidtFindTimes)
@@ -121,6 +146,24 @@ export const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
       .attr("fill", "none")
       .attr("d", lineGenerator)
       .attr("transform", `translate(${margin.left},0)`);
+    let schmidtFindLength = schmidtFindPath.node()?.getTotalLength();
+    schmidtFindPath
+      .attr("stroke-dashoffset", schmidtFindLength as number)
+      .attr("stroke-dasharray", schmidtFindLength as number)
+      .transition(transition)
+      .attr("stroke-dashoffset", 0);
+    g.selectAll("dots")
+      .data(schmidtFindTimes)
+      .enter()
+      .append("circle")
+      .attr("cx", function (d, i) {
+        return xScale(graphDensities[i]) + margin.left;
+      })
+      .attr("cy", function (d) {
+        return yScale(d.time);
+      })
+      .attr("r", 3)
+      .attr("fill", "blue");
     let schmidtPath = g
       .append("path")
       .datum<timeType[]>(schmidtTimes)
@@ -129,6 +172,24 @@ export const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
       .attr("fill", "none")
       .attr("d", lineGenerator)
       .attr("transform", `translate(${margin.left},0)`);
+    let schmidtLength = schmidtPath.node()?.getTotalLength();
+    schmidtPath
+      .attr("stroke-dashoffset", schmidtLength as number)
+      .attr("stroke-dasharray", schmidtLength as number)
+      .transition(transition)
+      .attr("stroke-dashoffset", 0);
+    g.selectAll("dots")
+      .data(schmidtTimes)
+      .enter()
+      .append("circle")
+      .attr("cx", function (d, i) {
+        return xScale(graphDensities[i]) + margin.left;
+      })
+      .attr("cy", function (d) {
+        return yScale(d.time);
+      })
+      .attr("r", 3)
+      .attr("fill", "green");
   }, [graphTimes]);
   return <svg height={"80vh"} width={"80vw"} id="linechart"></svg>;
 };
