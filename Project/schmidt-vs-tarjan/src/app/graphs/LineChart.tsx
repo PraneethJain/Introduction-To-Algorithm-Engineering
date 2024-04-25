@@ -9,12 +9,21 @@ interface LineChartProps {
 
 const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
   useEffect(() => {
+    // line colors and labels
+    const colors = ["black", "red", "blue", "green"];
+    const labels = [
+      "Tarjan Time",
+      "Schmidt Check Time",
+      "Schmidt Find Time",
+      "Schmidt Time",
+    ];
+
     // actual dimensions
     const chartWidth = parseFloat(d3.select("#linechart").style("width"));
     const chartHeight = parseFloat(d3.select("#linechart").style("height"));
 
     // declare margins and inner dimensions
-    const margin = { top: 10, right: 10, bottom: 20, left: 20 };
+    const margin = { top: 10, right: 30, bottom: 20, left: 20 };
     const width = chartWidth - margin.left - margin.right;
     const height = chartHeight - margin.top - margin.bottom;
 
@@ -36,9 +45,9 @@ const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
       .range([height, 0]);
 
     // set up svg
-    const svg = d3.select("#linechart");
-    svg.selectAll("*").remove();
-    const g = svg
+    const chart = d3.select("#linechart");
+    chart.selectAll("*").remove();
+    const g = chart
       .append("g")
       .attr("transform", `translate(${margin.left},${margin.top})`);
 
@@ -83,12 +92,73 @@ const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
         .attr("r", 3)
         .attr("fill", color);
     };
-    appendPath(graphTimes.tarjanTime, "black");
-    appendPath(graphTimes.schmidtCheckTime, "red");
-    appendPath(graphTimes.schmidtFindTime, "blue");
-    appendPath(graphTimes.schmidtTime, "green");
+    appendPath(graphTimes.tarjanTime, colors[0]);
+    appendPath(graphTimes.schmidtCheckTime, colors[1]);
+    appendPath(graphTimes.schmidtFindTime, colors[2]);
+    appendPath(graphTimes.schmidtTime, colors[3]);
+
+    // legend
+
+    const legend = d3.select("#legend");
+    const gLegend = legend.append("g");
+    gLegend
+      .selectAll("lines")
+      .data(colors)
+      .enter()
+      .append("path")
+      .attr("stroke", function (d) {
+        return d;
+      })
+      .attr("stroke-width", 3)
+      .attr("d", function (_, i) {
+        return `M20 ${
+          40 * i + 30
+        } L${20 + parseFloat(d3.select("#legend").style("width")) * 0.3} ${40 * i + 30}`;
+      });
+    gLegend
+      .selectAll("dots")
+      .data(colors)
+      .enter()
+      .append("circle")
+      .attr("cx", 20 + parseFloat(d3.select("#legend").style("width")) * 0.15)
+      .attr("cy", function (_, i) {
+        return 40 * i + 30;
+      })
+      .attr("r", 6)
+      .attr("fill", function (d) {
+        return d;
+      });
+    gLegend
+      .selectAll("labels")
+      .data(labels)
+      .enter()
+      .append("text")
+      .attr("x", 20 + parseFloat(d3.select("#legend").style("width")) * 0.35)
+      .attr("y", function (_, i) {
+        return 40 * i + 32.5;
+      })
+      .attr("font-size", "1.2vw")
+      .text(function (d) {
+        return d;
+      });
   }, [graphTimes]);
-  return <svg height={"80vh"} width={"80vw"} id="linechart"></svg>;
+
+  return (
+    <div className="flex mt-8">
+      <svg
+        height={"80vh"}
+        width={"60vw"}
+        id="linechart"
+        className="mr-16"
+      ></svg>
+      <svg
+        height={"30vh"}
+        width={"30vw"}
+        id="legend"
+        className="border-black border-2 rounded-xl"
+      ></svg>
+    </div>
+  );
 };
 
 export { LineChart };
