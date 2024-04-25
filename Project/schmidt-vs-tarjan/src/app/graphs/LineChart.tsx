@@ -16,7 +16,7 @@ export const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
     let graphDensities: number[] = [];
     for (let i = 0; i < graphTimes.length; ++i) {
       let curData = graphTimes[i];
-      graphDensities.push((curData.m * 100) / (curData.n * (curData.n - 1)));
+      graphDensities.push((curData.m * 200) / (curData.n * (curData.n - 1)));
     }
 
     // get time arrays
