@@ -1,11 +1,9 @@
 import { getGraphTimes } from "@/lib";
-import type { TimeData } from "@/lib";
+import type { TimeDatas } from "@/lib";
 import { LineChart } from "./graphs/LineChart";
 
 export default async function Home() {
-  const graphTimes: TimeData[] = await getGraphTimes(1000000);
-  console.log(graphTimes);
-  console.log(graphTimes.length);
+  const graphTimes: TimeDatas = await getGraphTimes(1000000);
 
   return (
     <div className="grid justify-items-center">
