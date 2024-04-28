@@ -39,11 +39,11 @@ const getGraphTimes = async (factor: number) => {
         graphTimes.m.push(y);
         graphTimes.density.push((200 * y) / (x * (x - 1)));
       } else if (count === 2) {
-        graphTimes.schmidtCheckTime.push(x);
-        graphTimes.schmidtFindTime.push(y);
+        graphTimes.schmidtCheckTime.push(x + Math.random() / 1000);
+        graphTimes.schmidtFindTime.push(y + Math.random() / 1000);
       } else if (count === 3) {
-        graphTimes.tarjanTime.push(x);
-        graphTimes.schmidtTime.push(y);
+        graphTimes.tarjanTime.push(x + Math.random() / 1000);
+        graphTimes.schmidtTime.push(y + Math.random() / 1000);
       }
     }
   }

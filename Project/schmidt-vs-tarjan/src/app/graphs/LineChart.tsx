@@ -114,13 +114,13 @@ const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
                 "<br>Density: " +
                 graphTimes.density[idx] +
                 "<br>Time: " +
-                times[idx]
+                Math.round(times[idx])
             )
             .style("position", "absolute")
             .style("left", `${event.pageX + 10}px`)
             .style("top", `${event.pageY - 10}px`)
             .style("background-color", "pink")
-            .style("border-radius","0.5vw")
+            .style("border-radius", "0.5vw");
         })
         .on("mouseleave", function (event) {
           tooltip.style("display", "none");
