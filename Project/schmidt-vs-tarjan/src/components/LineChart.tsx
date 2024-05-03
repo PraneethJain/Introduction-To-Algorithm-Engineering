@@ -19,16 +19,13 @@ const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
       "Schmidt Time": "#32C7FC",
     };
 
-    // actual dimensions
     const chartWidth = parseFloat(d3.select(chartRef.current).style("width"));
     const chartHeight = parseFloat(d3.select(chartRef.current).style("height"));
 
-    // declare margins and inner dimensions
     const margin = { top: 10, right: 30, bottom: 20, left: 20 };
     const width = chartWidth - margin.left - margin.right;
     const height = chartHeight - margin.top - margin.bottom;
 
-    // x and y scales
     const xScale = d3
       .scaleLinear()
       .domain(d3.extent(graphTimes.xData) as Iterable<d3.NumberValue>)
@@ -45,14 +42,12 @@ const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
       )
       .range([height, 0]);
 
-    // set up svg
     const chart = d3.select(chartRef.current);
     chart.selectAll("*").remove();
     const g = chart
       .append("g")
       .attr("transform", `translate(${margin.left},${margin.top})`);
 
-    // define and render axes
     let xAxis = d3.axisBottom(xScale);
     let yAxis = d3.axisLeft(yScale);
     g.append("g")
@@ -60,20 +55,15 @@ const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
       .call(xAxis);
     g.append("g").attr("transform", `translate(${margin.left},0)`).call(yAxis);
 
-    // line generator
     const lineGenerator = d3
       .line<number>()
       .x((_, i) => xScale(graphTimes.xData[i]))
       .y(yScale);
 
-    // transition
     const transition = d3.transition().ease(d3.easeSin).duration(2000);
 
-    // tooltip
-    // let tooltip = d3.select("body").append("div").attr("class", "tooltip");
     let tooltip = d3.select(".tooltip");
 
-    // append paths
     const appendPath = (times: number[], color: string) => {
       let path = g
         .append("path")
@@ -120,7 +110,8 @@ const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
             )
             .style("position", "absolute")
             .style("left", `${event.pageX + 10}px`)
-            .style("top", `${event.pageY - 10}px`);
+            .style("top", `${event.pageY - 10}px`)
+            .style("color", color);
         })
         .on("mouseleave", function () {
           tooltip.style("display", "none");
@@ -137,7 +128,6 @@ const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
     appendPath(graphTimes.schmidtFindTime, labelColors["Schmidt Find Time"]);
     appendPath(graphTimes.schmidtTime, labelColors["Schmidt Time"]);
 
-    // legend
     const legend = d3.select(legendRef.current);
     const gLegend = legend.append("g");
     gLegend
@@ -191,9 +181,9 @@ const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
         height="20vh"
         width="15vw"
         ref={legendRef}
-        className="border-black border-2 rounded-xl fill-white"
+        className="border-white border-2 rounded-xl fill-white"
       ></svg>
-      <div className="tooltip bg-red-50"></div>
+      <div className="tooltip bg-black border-white border-2 rounded-l p-2 hidden"></div>
     </div>
   );
 };

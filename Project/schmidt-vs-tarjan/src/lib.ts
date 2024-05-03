@@ -49,7 +49,7 @@ const getGraphTimes = async (xLabel: XLabel) => {
             graphTimes.xData.push(x);
             break;
           case XLabel.Density:
-            graphTimes.xData.push((200 * y) / (x * (x - 1)));
+            graphTimes.xData.push(Math.round((200 * y) / (x * (x - 1))));
             break;
           case XLabel.Bridge:
             break;
@@ -66,6 +66,8 @@ const getGraphTimes = async (xLabel: XLabel) => {
 
   return graphTimes;
 };
+
+
 
 export { getGraphTimes, XLabel };
 export type { TimeDatas };
