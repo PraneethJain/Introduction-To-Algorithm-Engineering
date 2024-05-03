@@ -7,7 +7,7 @@ type TimeDatas = {
   schmidtFindTime: number[];
   tarjanTime: number[];
   schmidtTime: number[];
-  density: number[];
+  xData: number[];
 };
 
 const getGraphTimes = async (factor: number) => {
@@ -23,7 +23,7 @@ const getGraphTimes = async (factor: number) => {
     schmidtFindTime: [],
     tarjanTime: [],
     schmidtTime: [],
-    density: [],
+    xData: [],
   };
 
   let count = 0;
@@ -37,7 +37,7 @@ const getGraphTimes = async (factor: number) => {
       if (count === 1) {
         graphTimes.n.push(x);
         graphTimes.m.push(y);
-        graphTimes.density.push((200 * y) / (x * (x - 1)));
+        graphTimes.xData.push((200 * y) / (x * (x - 1)));
       } else if (count === 2) {
         graphTimes.schmidtCheckTime.push(x + Math.random() / 1000);
         graphTimes.schmidtFindTime.push(y + Math.random() / 1000);

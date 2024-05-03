@@ -30,7 +30,7 @@ const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
     // x and y scales
     const xScale = d3
       .scaleLinear()
-      .domain(d3.extent(graphTimes.density) as Iterable<d3.NumberValue>)
+      .domain(d3.extent(graphTimes.xData) as Iterable<d3.NumberValue>)
       .range([0, width]);
     const yScale = d3
       .scaleLinear()
@@ -62,7 +62,7 @@ const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
     // line generator
     const lineGenerator = d3
       .line<number>()
-      .x((_, i) => xScale(graphTimes.density[i]))
+      .x((_, i) => xScale(graphTimes.xData[i]))
       .y(yScale);
 
     // transition
@@ -91,7 +91,7 @@ const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
         .data(times)
         .enter()
         .append("circle")
-        .attr("cx", (_, i) => xScale(graphTimes.density[i]) + margin.left)
+        .attr("cx", (_, i) => xScale(graphTimes.xData[i]) + margin.left)
         .attr("cy", yScale)
         .attr("r", 3)
         .attr("fill", color)
@@ -112,7 +112,7 @@ const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
                 "<br>Edges: " +
                 graphTimes.m[idx] +
                 "<br>Density: " +
-                graphTimes.density[idx] +
+                graphTimes.xData[idx] +
                 "<br>Time: " +
                 Math.round(times[idx])
             )
