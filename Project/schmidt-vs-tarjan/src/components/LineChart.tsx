@@ -1,13 +1,16 @@
 "use client";
 import { TimeDatas } from "@/lib";
 import * as d3 from "d3";
-import { FC, useEffect } from "react";
+import { FC, useEffect, useRef } from "react";
 
 interface LineChartProps {
   graphTimes: TimeDatas;
 }
 
 const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
+  const chartRef = useRef(null);
+  const legendRef = useRef(null);
+
   useEffect(() => {
     // line colors and labels
     const colors = ["black", "red", "blue", "green"];
@@ -19,8 +22,8 @@ const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
     ];
 
     // actual dimensions
-    const chartWidth = parseFloat(d3.select("#linechart").style("width"));
-    const chartHeight = parseFloat(d3.select("#linechart").style("height"));
+    const chartWidth = parseFloat(d3.select(chartRef.current).style("width"));
+    const chartHeight = parseFloat(d3.select(chartRef.current).style("height"));
 
     // declare margins and inner dimensions
     const margin = { top: 10, right: 30, bottom: 20, left: 20 };
@@ -45,7 +48,7 @@ const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
       .range([height, 0]);
 
     // set up svg
-    const chart = d3.select("#linechart");
+    const chart = d3.select(chartRef.current);
     chart.selectAll("*").remove();
     const g = chart
       .append("g")
@@ -137,7 +140,7 @@ const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
     appendPath(graphTimes.schmidtTime, colors[3]);
 
     // legend
-    const legend = d3.select("#legend");
+    const legend = d3.select(legendRef.current);
     const gLegend = legend.append("g");
     gLegend
       .selectAll("lines")
@@ -151,14 +154,17 @@ const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
       .attr("d", function (_, i) {
         return `M20 ${
           40 * i + 30
-        } L${20 + parseFloat(d3.select("#legend").style("width")) * 0.3} ${40 * i + 30}`;
+        } L${20 + parseFloat(d3.select(legendRef.current).style("width")) * 0.3} ${40 * i + 30}`;
       });
     gLegend
       .selectAll("dots")
       .data(colors)
       .enter()
       .append("circle")
-      .attr("cx", 20 + parseFloat(d3.select("#legend").style("width")) * 0.15)
+      .attr(
+        "cx",
+        20 + parseFloat(d3.select(legendRef.current).style("width")) * 0.15
+      )
       .attr("cy", function (_, i) {
         return 40 * i + 30;
       })
@@ -171,7 +177,10 @@ const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
       .data(labels)
       .enter()
       .append("text")
-      .attr("x", 20 + parseFloat(d3.select("#legend").style("width")) * 0.35)
+      .attr(
+        "x",
+        20 + parseFloat(d3.select(legendRef.current).style("width")) * 0.35
+      )
       .attr("y", function (_, i) {
         return 40 * i + 32.5;
       })
@@ -183,16 +192,11 @@ const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
 
   return (
     <div className="flex mt-8">
+      <svg height="80vh" width="60vw" ref={chartRef} className="mr-16"></svg>
       <svg
-        height={"80vh"}
-        width={"60vw"}
-        id="linechart"
-        className="mr-16"
-      ></svg>
-      <svg
-        height={"30vh"}
-        width={"30vw"}
-        id="legend"
+        height="30vh"
+        width="30vw"
+        ref={legendRef}
         className="border-black border-2 rounded-xl"
       ></svg>
     </div>

@@ -8,7 +8,7 @@ export default async function Home() {
 
   return (
     <div className="grid justify-items-center">
-      {/* <LineChart graphTimes={densityTimes}></LineChart> */}
+      <LineChart graphTimes={densityTimes}></LineChart>
       <LineChart graphTimes={completeTimes}></LineChart>
     </div>
   );
