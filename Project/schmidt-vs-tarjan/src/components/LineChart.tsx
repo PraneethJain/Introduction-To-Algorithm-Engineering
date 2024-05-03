@@ -13,6 +13,23 @@ const LineChart: FC<LineChartProps> = ({ graphTimes, xLabel }) => {
   const chartRef = useRef(null);
   const legendRef = useRef(null);
 
+  let headingText = "";
+  let description = "";
+  switch (xLabel) {
+    case XLabel.Density:
+      headingText = "Increasing Density with Constant n + m";
+      description = "some description yes";
+      break;
+    case XLabel.Complete:
+      headingText = "Complete Graphs with Increasing Vertices";
+      description = "";
+      break;
+    case XLabel.Bridge:
+      description = "Increasing bridges with constant n + m";
+      description = "";
+      break;
+  }
+
   useEffect(() => {
     const labelColors = {
       TarjanTime: "#FAA752",
@@ -188,15 +205,19 @@ const LineChart: FC<LineChartProps> = ({ graphTimes, xLabel }) => {
   }, [graphTimes, xLabel]);
 
   return (
-    <div className="flex mt-8">
-      <svg height="50vh" width="40vw" ref={chartRef} className="mr-16"></svg>
-      <svg
-        height="20vh"
-        width="15vw"
-        ref={legendRef}
-        className="border-white border-2 rounded-xl fill-white"
-      ></svg>
-      <div className="tooltip bg-black border-white border-2 rounded-l p-2 hidden"></div>
+    <div className="my-8">
+      <h1 className="text-3xl font-bold">{headingText}</h1>
+      <p className="my-4">{description}</p>
+      <div className="flex mt-8">
+        <svg height="50vh" width="40vw" ref={chartRef} className="mr-16"></svg>
+        <svg
+          height="20vh"
+          width="15vw"
+          ref={legendRef}
+          className="border-white border-2 rounded-xl fill-white"
+        ></svg>
+        <div className="tooltip bg-black border-white border-2 rounded-l p-2 hidden"></div>
+      </div>
     </div>
   );
 };
