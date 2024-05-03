@@ -8,7 +8,7 @@ for b in range(10_000, 135_001, 2500):
     nb = m - b
     small_sz = int(nb // (b + 1))
     big_no = int(nb % 3)
-    cur_file = f"input_graphs/bridge_graphs/{b}_bridges.txt"
+    cur_file = f"input_graphs/bridge_graphs/{b:06}_bridges.txt"
     with open(cur_file, "w") as f:
         # sh(f"echo {n} {m} > {cur_file}")
         f.write(f"{n} {m}\n")
