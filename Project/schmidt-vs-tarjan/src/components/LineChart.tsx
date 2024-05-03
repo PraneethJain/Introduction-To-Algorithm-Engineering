@@ -15,18 +15,22 @@ const LineChart: FC<LineChartProps> = ({ graphTimes, xLabel }) => {
 
   let headingText = "";
   let description = "";
+  let xAxisLabel = "";
   switch (xLabel) {
     case XLabel.Density:
       headingText = "Increasing Density with Constant n + m";
       description = "some description yes";
+      xAxisLabel = "Density (%)";
       break;
     case XLabel.Complete:
       headingText = "Complete Graphs with Increasing Vertices";
       description = "";
+      xAxisLabel = "Vertices";
       break;
     case XLabel.Bridge:
       description = "Increasing bridges with constant n + m";
       description = "";
+      xAxisLabel = "Bridges";
       break;
   }
 
@@ -41,7 +45,7 @@ const LineChart: FC<LineChartProps> = ({ graphTimes, xLabel }) => {
     const chartWidth = parseFloat(d3.select(chartRef.current).style("width"));
     const chartHeight = parseFloat(d3.select(chartRef.current).style("height"));
 
-    const margin = { top: 10, right: 30, bottom: 20, left: 20 };
+    const margin = { top: 10, right: 30, bottom: 45, left: 40 };
     const width = chartWidth - margin.left - margin.right;
     const height = chartHeight - margin.top - margin.bottom;
 
@@ -73,6 +77,20 @@ const LineChart: FC<LineChartProps> = ({ graphTimes, xLabel }) => {
       .attr("transform", `translate(${margin.left},${height})`)
       .call(xAxis);
     g.append("g").attr("transform", `translate(${margin.left},0)`).call(yAxis);
+
+    g.append("text")
+      .attr("class", "x-axis-label")
+      .attr("x", width / 2)
+      .attr("y", height + margin.top + 30)
+      .text(xAxisLabel);
+
+    // Add y-axis label
+    g.append("text")
+      .attr("class", "y-axis-label")
+      .attr("x", -height / 2)
+      .attr("y", -margin.left + 30)
+      .attr("transform", "rotate(-90)")
+      .text("Time (ms)");
 
     const lineGenerator = d3
       .line<number>()
@@ -205,11 +223,16 @@ const LineChart: FC<LineChartProps> = ({ graphTimes, xLabel }) => {
   }, [graphTimes, xLabel]);
 
   return (
-    <div className="my-8">
+    <div className="my-8 w-3/4">
       <h1 className="text-3xl font-bold">{headingText}</h1>
       <p className="my-4">{description}</p>
-      <div className="flex mt-8">
-        <svg height="50vh" width="40vw" ref={chartRef} className="mr-16"></svg>
+      <div className="flex mt-8 justify-evenly">
+        <svg
+          height="50vh"
+          width="40vw"
+          ref={chartRef}
+          className="fill-white"
+        ></svg>
         <svg
           height="20vh"
           width="15vw"
