@@ -1,18 +1,10 @@
 import { promises as fs } from "fs";
+import type { TimeDatas } from "@/types";
+import { XLabel } from "@/types";
 
-type TimeDatas = {
-  n: number[];
-  m: number[];
-  schmidtCheckTime: number[];
-  schmidtFindTime: number[];
-  tarjanTime: number[];
-  schmidtTime: number[];
-  xData: number[];
-};
-
-const getGraphTimes = async (factor: number) => {
+const getGraphTimes = async (xLabel: XLabel) => {
   const file = await fs.readFile(
-    process.cwd() + `/src/app/data/${factor}.txt`,
+    process.cwd() + `/src/data/${xLabel}.txt`,
     "utf8"
   );
 
@@ -37,7 +29,17 @@ const getGraphTimes = async (factor: number) => {
       if (count === 1) {
         graphTimes.n.push(x);
         graphTimes.m.push(y);
-        graphTimes.xData.push((200 * y) / (x * (x - 1)));
+
+        switch (xLabel) {
+          case XLabel.Complete:
+            graphTimes.xData.push(x);
+            break;
+          case XLabel.Density:
+            graphTimes.xData.push(Math.round((200 * y) / (x * (x - 1))));
+            break;
+          case XLabel.Bridge:
+            break;
+        }
       } else if (count === 2) {
         graphTimes.schmidtCheckTime.push(x + Math.random() / 1000);
         graphTimes.schmidtFindTime.push(y + Math.random() / 1000);

@@ -1,13 +1,19 @@
 import { getGraphTimes } from "@/lib";
-import type { TimeDatas } from "@/lib";
-import { LineChart } from "./graphs/LineChart";
+import { XLabel } from "@/types";
+import { TimeDatas } from "@/lib";
+import { LineChart } from "@/components/LineChart";
 
 export default async function Home() {
-  const graphTimes: TimeDatas = await getGraphTimes(1000000);
+  const completeTimes: TimeDatas = await getGraphTimes(XLabel.Complete);
+  const densityTimes: TimeDatas = await getGraphTimes(XLabel.Density);
 
   return (
-    <div className="grid justify-items-center">
-      <LineChart graphTimes={graphTimes}></LineChart>
+    <div className="grid justify-items-center bg-black text-white">
+      <LineChart graphTimes={densityTimes} xLabel={XLabel.Density}></LineChart>
+      <LineChart
+        graphTimes={completeTimes}
+        xLabel={XLabel.Complete}
+      ></LineChart>
     </div>
   );
 }
