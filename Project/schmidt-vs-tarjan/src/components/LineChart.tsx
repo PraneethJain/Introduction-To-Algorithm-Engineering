@@ -220,7 +220,7 @@ const LineChart: FC<LineChartProps> = ({ graphTimes, xLabel }) => {
       })
       .attr("font-size", "0.8vw")
       .text((d) => d);
-  }, [graphTimes, xLabel]);
+  }, [graphTimes, xLabel, xAxisLabel]);
 
   return (
     <div className="my-8 w-3/4">
