@@ -1,13 +1,15 @@
 "use client";
 import { TimeDatas } from "@/lib";
+import { XLabel } from "@/types";
 import * as d3 from "d3";
 import { FC, useEffect, useRef } from "react";
 
 interface LineChartProps {
   graphTimes: TimeDatas;
+  xLabel: XLabel;
 }
 
-const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
+const LineChart: FC<LineChartProps> = ({ graphTimes, xLabel }) => {
   const chartRef = useRef(null);
   const legendRef = useRef(null);
 
@@ -96,15 +98,26 @@ const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
             .style("stroke-width", "3px");
         })
         .on("mousemove", function (event, d) {
-          let idx = times.indexOf(d);
+          const idx = times.indexOf(d);
+          let xTooltip = "";
+          switch (xLabel) {
+            case XLabel.Density:
+              xTooltip = `<br/>Density: ${graphTimes.xData[idx]}`;
+              break;
+            case XLabel.Complete:
+              xTooltip = "";
+              break;
+            case XLabel.Bridge:
+              xTooltip = "";
+              break;
+          }
           tooltip
             .html(
               "Vertices: " +
                 graphTimes.n[idx] +
                 "<br>Edges: " +
                 graphTimes.m[idx] +
-                "<br>Density: " +
-                graphTimes.xData[idx] +
+                `${xTooltip}` +
                 "<br>Time: " +
                 Math.round(times[idx])
             )
@@ -172,7 +185,7 @@ const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
       })
       .attr("font-size", "0.8vw")
       .text((d) => d);
-  }, [graphTimes]);
+  }, [graphTimes, xLabel]);
 
   return (
     <div className="flex mt-8">

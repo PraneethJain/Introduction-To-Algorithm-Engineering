@@ -1,20 +1,6 @@
 import { promises as fs } from "fs";
-
-enum XLabel {
-  Density = "Density",
-  Complete = "Complete",
-  Bridge = "Bridge",
-}
-
-type TimeDatas = {
-  n: number[];
-  m: number[];
-  schmidtCheckTime: number[];
-  schmidtFindTime: number[];
-  tarjanTime: number[];
-  schmidtTime: number[];
-  xData: number[];
-};
+import type { TimeDatas } from "@/types";
+import { XLabel } from "@/types";
 
 const getGraphTimes = async (xLabel: XLabel) => {
   const file = await fs.readFile(
@@ -67,7 +53,5 @@ const getGraphTimes = async (xLabel: XLabel) => {
   return graphTimes;
 };
 
-
-
-export { getGraphTimes, XLabel };
+export { getGraphTimes };
 export type { TimeDatas };
