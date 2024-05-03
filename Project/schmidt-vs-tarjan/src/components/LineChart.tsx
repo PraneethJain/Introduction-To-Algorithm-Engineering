@@ -12,14 +12,12 @@ const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
   const legendRef = useRef(null);
 
   useEffect(() => {
-    // line colors and labels
-    const colors = ["black", "red", "blue", "green"];
-    const labels = [
-      "Tarjan Time",
-      "Schmidt Check Time",
-      "Schmidt Find Time",
-      "Schmidt Time",
-    ];
+    const labelColors = {
+      TarjanTime: "#FAA752",
+      "Schmidt Check Time": "#E53BFF",
+      "Schmidt Find Time": "#A9FB54",
+      "Schmidt Time": "#32C7FC",
+    };
 
     // actual dimensions
     const chartWidth = parseFloat(d3.select(chartRef.current).style("width"));
@@ -72,7 +70,8 @@ const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
     const transition = d3.transition().ease(d3.easeSin).duration(2000);
 
     // tooltip
-    let tooltip = d3.select("body").append("div").attr("class", "tooltip");
+    // let tooltip = d3.select("body").append("div").attr("class", "tooltip");
+    let tooltip = d3.select(".tooltip");
 
     // append paths
     const appendPath = (times: number[], color: string) => {
@@ -98,7 +97,7 @@ const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
         .attr("cy", yScale)
         .attr("r", 3)
         .attr("fill", color)
-        .on("mouseover", function (event, d) {
+        .on("mouseover", function () {
           tooltip.style("display", "block");
           d3.select(this)
             .transition()
@@ -121,11 +120,9 @@ const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
             )
             .style("position", "absolute")
             .style("left", `${event.pageX + 10}px`)
-            .style("top", `${event.pageY - 10}px`)
-            .style("background-color", "pink")
-            .style("border-radius", "0.5vw");
+            .style("top", `${event.pageY - 10}px`);
         })
-        .on("mouseleave", function (event) {
+        .on("mouseleave", function () {
           tooltip.style("display", "none");
           d3.select(this)
             .transition()
@@ -134,22 +131,21 @@ const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
             .style("stroke-width", "0px");
         });
     };
-    appendPath(graphTimes.tarjanTime, colors[0]);
-    appendPath(graphTimes.schmidtCheckTime, colors[1]);
-    appendPath(graphTimes.schmidtFindTime, colors[2]);
-    appendPath(graphTimes.schmidtTime, colors[3]);
+
+    appendPath(graphTimes.tarjanTime, labelColors["TarjanTime"]);
+    appendPath(graphTimes.schmidtCheckTime, labelColors["Schmidt Check Time"]);
+    appendPath(graphTimes.schmidtFindTime, labelColors["Schmidt Find Time"]);
+    appendPath(graphTimes.schmidtTime, labelColors["Schmidt Time"]);
 
     // legend
     const legend = d3.select(legendRef.current);
     const gLegend = legend.append("g");
     gLegend
       .selectAll("lines")
-      .data(colors)
+      .data(Object.values(labelColors))
       .enter()
       .append("path")
-      .attr("stroke", function (d) {
-        return d;
-      })
+      .attr("stroke", (d) => d)
       .attr("stroke-width", 3)
       .attr("d", function (_, i) {
         return `M20 ${
@@ -158,7 +154,7 @@ const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
       });
     gLegend
       .selectAll("dots")
-      .data(colors)
+      .data(Object.values(labelColors))
       .enter()
       .append("circle")
       .attr(
@@ -174,7 +170,7 @@ const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
       });
     gLegend
       .selectAll("labels")
-      .data(labels)
+      .data(Object.keys(labelColors))
       .enter()
       .append("text")
       .attr(
@@ -184,21 +180,20 @@ const LineChart: FC<LineChartProps> = ({ graphTimes }) => {
       .attr("y", function (_, i) {
         return 40 * i + 32.5;
       })
-      .attr("font-size", "1.2vw")
-      .text(function (d) {
-        return d;
-      });
+      .attr("font-size", "0.8vw")
+      .text((d) => d);
   }, [graphTimes]);
 
   return (
     <div className="flex mt-8">
-      <svg height="80vh" width="60vw" ref={chartRef} className="mr-16"></svg>
+      <svg height="50vh" width="40vw" ref={chartRef} className="mr-16"></svg>
       <svg
-        height="30vh"
-        width="30vw"
+        height="20vh"
+        width="15vw"
         ref={legendRef}
-        className="border-black border-2 rounded-xl"
+        className="border-black border-2 rounded-xl fill-white"
       ></svg>
+      <div className="tooltip bg-red-50"></div>
     </div>
   );
 };

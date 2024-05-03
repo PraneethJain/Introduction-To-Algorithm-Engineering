@@ -7,7 +7,7 @@ export default async function Home() {
   const densityTimes: TimeDatas = await getGraphTimes(XLabel.Density);
 
   return (
-    <div className="grid justify-items-center">
+    <div className="grid justify-items-center bg-black text-white">
       <LineChart graphTimes={densityTimes}></LineChart>
       <LineChart graphTimes={completeTimes}></LineChart>
     </div>
