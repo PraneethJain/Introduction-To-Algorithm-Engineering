@@ -35,8 +35,6 @@ const LineChart: FC<LineChartProps> = ({ graphTimes, xLabel }) => {
   }
 
   useEffect(() => {
-    console.log(graphTimes);
-
     const labelColors = {
       TarjanTime: "#FAA752",
       "Schmidt Check Time": "#E53BFF",
@@ -47,7 +45,7 @@ const LineChart: FC<LineChartProps> = ({ graphTimes, xLabel }) => {
     const chartWidth = parseFloat(d3.select(chartRef.current).style("width"));
     const chartHeight = parseFloat(d3.select(chartRef.current).style("height"));
 
-    const margin = { top: 10, right: 30, bottom: 45, left: 40 };
+    const margin = { top: 10, right: 50, bottom: 45, left: 40 };
     const width = chartWidth - margin.left - margin.right;
     const height = chartHeight - margin.top - margin.bottom;
 
@@ -145,7 +143,7 @@ const LineChart: FC<LineChartProps> = ({ graphTimes, xLabel }) => {
               xTooltip = "";
               break;
             case XLabel.Bridge:
-              xTooltip = "";
+              xTooltip = `<br/>No of bridges: ${graphTimes.xData[idx] * 10000}`;
               break;
           }
           tooltip
@@ -189,8 +187,9 @@ const LineChart: FC<LineChartProps> = ({ graphTimes, xLabel }) => {
       .attr("stroke-width", 3)
       .attr("d", function (_, i) {
         return `M20 ${
-          40 * i + 30
-        } L${20 + parseFloat(d3.select(legendRef.current).style("width")) * 0.3} ${40 * i + 30}`;
+          parseFloat(d3.select(legendRef.current).style("height")) * 0.175 * i +
+          30
+        } L${20 + parseFloat(d3.select(legendRef.current).style("width")) * 0.3} ${parseFloat(d3.select(legendRef.current).style("height")) * 0.175 * i + 30}`;
       });
     gLegend
       .selectAll("dots")
@@ -202,7 +201,10 @@ const LineChart: FC<LineChartProps> = ({ graphTimes, xLabel }) => {
         20 + parseFloat(d3.select(legendRef.current).style("width")) * 0.15
       )
       .attr("cy", function (_, i) {
-        return 40 * i + 30;
+        return (
+          parseFloat(d3.select(legendRef.current).style("height")) * 0.175 * i +
+          30
+        );
       })
       .attr("r", 6)
       .attr("fill", function (d) {
@@ -218,7 +220,10 @@ const LineChart: FC<LineChartProps> = ({ graphTimes, xLabel }) => {
         20 + parseFloat(d3.select(legendRef.current).style("width")) * 0.35
       )
       .attr("y", function (_, i) {
-        return 40 * i + 32.5;
+        return (
+          parseFloat(d3.select(legendRef.current).style("height")) * 0.175 * i +
+          32.5
+        );
       })
       .attr("font-size", "0.8vw")
       .text((d) => d);
