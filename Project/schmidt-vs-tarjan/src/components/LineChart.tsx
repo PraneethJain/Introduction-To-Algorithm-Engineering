@@ -30,11 +30,13 @@ const LineChart: FC<LineChartProps> = ({ graphTimes, xLabel }) => {
     case XLabel.Bridge:
       description = "Increasing bridges with constant n + m";
       description = "";
-      xAxisLabel = "Bridges";
+      xAxisLabel = "Bridges (* 1e4)";
       break;
   }
 
   useEffect(() => {
+    console.log(graphTimes);
+
     const labelColors = {
       TarjanTime: "#FAA752",
       "Schmidt Check Time": "#E53BFF",

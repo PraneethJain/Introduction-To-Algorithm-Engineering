@@ -38,6 +38,7 @@ const getGraphTimes = async (xLabel: XLabel) => {
             graphTimes.xData.push(Math.round((200 * y) / (x * (x - 1))));
             break;
           case XLabel.Bridge:
+            graphTimes.xData.push((y - x) / 10000);
             break;
         }
       } else if (count === 2) {
