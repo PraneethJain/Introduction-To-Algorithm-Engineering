@@ -1,6 +1,13 @@
 import { getGraphTimes } from "@/lib";
 import { TimeDatas } from "@/lib";
 import { Switcher } from "@/components/Switcher";
+import { Roboto } from "next/font/google";
+import { Poppins } from "next/font/google";
+
+const poppins = Poppins({
+  weight: ["100", "200", "500", "900"],
+  subsets: ["latin"],
+});
 
 export default async function Home() {
   const completeTimes: TimeDatas = await getGraphTimes("Complete");
@@ -8,7 +15,22 @@ export default async function Home() {
   const bridgeTimes: TimeDatas = await getGraphTimes("Bridge");
 
   return (
-    <div className="grid justify-items-center bg-black text-white text-justify">
+    <div
+      className={
+        poppins.className +
+        " grid justify-items-center bg-black text-white text-justify"
+      }
+    >
+      <div className="h-screen flex flex-col justify-center items-center">
+        <h1 className="text-8xl text-center">
+          Introduction to <br /> Algorithm Engineering
+        </h1>
+        <h2 className="text-6xl py-12">Team 7</h2>
+        <div className="text-3xl flex flex-col justify-between text-center h-24">
+          <h3>Devika Bej</h3>
+          <h3>Moida Praneeth Jain</h3>
+        </div>
+      </div>
       <Switcher
         timeDatas={densityTimes}
         header="Increasing Density with Constant N + M"
