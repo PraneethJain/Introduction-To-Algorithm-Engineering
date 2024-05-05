@@ -36,7 +36,7 @@ const LineChart: FC<LineChartProps> = ({ graphTimes, xLabel }) => {
 
   useEffect(() => {
     const labelColors = {
-      TarjanTime: "#FAA752",
+      "TarjanTime": "#FAA752",
       "Schmidt Check Time": "#E53BFF",
       "Schmidt Find Time": "#A9FB54",
       "Schmidt Time": "#32C7FC",
