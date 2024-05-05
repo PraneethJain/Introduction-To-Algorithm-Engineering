@@ -1,6 +1,9 @@
+"use client";
+
 import { LineChart } from "@/components/LineChart";
 import { StreamChart } from "@/components/StreamChart";
 import type { TimeDatas } from "@/types";
+import { useState } from "react";
 
 const toStreamData = (timeDatas: TimeDatas) => {
   const size = timeDatas.xData.length - 1;
@@ -31,6 +34,8 @@ const Switcher = ({
   header,
   description,
 }: SwitcherProps) => {
+  const [curToggle, setToggle] = useState(true);
+
   const labelColors = {
     TarjanTime: "#FAA752",
     "Schmidt Time": "#32C7FC",
@@ -39,20 +44,26 @@ const Switcher = ({
   };
 
   return (
-    <div>
+    <div className="w-3/4 flex flex-col justify-center items-center">
       <h1 className="text-3xl font-bold">{header}</h1>
       <p className="my-4">{description}</p>
-      <LineChart
-        graphTimes={timeDatas}
-        labelColors={labelColors}
-        xLabel={xLabel}
-      />
-      <StreamChart
-        width={600}
-        height={400}
-        data={toStreamData(timeDatas)}
-        labelColors={labelColors}
-      />
+      <button className="" onClick={() => setToggle(!curToggle)}>
+        Toggle
+      </button>
+      {curToggle ? (
+        <LineChart
+          graphTimes={timeDatas}
+          labelColors={labelColors}
+          xLabel={xLabel}
+        />
+      ) : (
+        <StreamChart
+          width={600}
+          height={400}
+          data={toStreamData(timeDatas)}
+          labelColors={labelColors}
+        />
+      )}
     </div>
   );
 };
