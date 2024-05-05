@@ -9,6 +9,7 @@ type StreamChartProps = {
   height: number;
   data: { [key: string]: number }[];
   labelColors: { [key: string]: string };
+  xLabel: string;
 };
 
 const StreamChart = ({
@@ -16,6 +17,7 @@ const StreamChart = ({
   height,
   data,
   labelColors,
+  xLabel,
 }: StreamChartProps) => {
   const boundsWidth = width - MARGIN.right - MARGIN.left;
   const boundsHeight = height - MARGIN.top - MARGIN.bottom;
@@ -126,6 +128,15 @@ const StreamChart = ({
           {grid}
           <g className="container">{allPath}</g>
           <g>{labels}</g>
+          <text
+            x={boundsWidth / 2}
+            y={boundsHeight + MARGIN.bottom - 10}
+            textAnchor="middle"
+            fontSize={14}
+            fill="white"
+          >
+            {xLabel}
+          </text>
         </g>
       </svg>
     </div>

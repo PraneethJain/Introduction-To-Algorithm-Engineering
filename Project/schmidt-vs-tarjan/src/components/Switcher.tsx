@@ -62,6 +62,7 @@ const Switcher = ({
           height={400}
           data={toStreamData(timeDatas)}
           labelColors={labelColors}
+          xLabel={xLabel}
         />
       )}
     </div>
