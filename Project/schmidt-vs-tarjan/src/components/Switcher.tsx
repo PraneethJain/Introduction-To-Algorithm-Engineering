@@ -62,8 +62,6 @@ const Switcher = ({
         />
       ) : (
         <StreamChart
-          width={800}
-          height={600}
           data={toStreamData(timeDatas)}
           labelColors={labelColors}
           xLabel={xLabel}

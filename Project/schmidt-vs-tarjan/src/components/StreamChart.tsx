@@ -2,25 +2,22 @@ import { useMemo } from "react";
 import * as d3 from "d3";
 import { curveCatmullRom } from "d3";
 
-const MARGIN = { top: 30, right: 150, bottom: 50, left: 50 };
+const MARGIN = { top: 30, right: 180, bottom: 50, left: 50 };
 
 type StreamChartProps = {
-  width: number;
-  height: number;
   data: { [key: string]: number }[];
   labelColors: { [key: string]: string };
   xLabel: string;
 };
 
-const StreamChart = ({
-  width,
-  height,
-  data,
-  labelColors,
-  xLabel,
-}: StreamChartProps) => {
-  const boundsWidth = width - MARGIN.right - MARGIN.left;
-  const boundsHeight = height - MARGIN.top - MARGIN.bottom;
+const StreamChart = ({ data, labelColors, xLabel }: StreamChartProps) => {
+  const width = 50;
+  const height = 50;
+
+  const boundsWidth =
+    (width * window.innerWidth) / 100 - MARGIN.right - MARGIN.left;
+  const boundsHeight =
+    (height * window.innerHeight) / 100 - MARGIN.top - MARGIN.bottom;
 
   const groups = Object.keys(data[0]).filter((key) => key !== "x");
 
@@ -82,7 +79,7 @@ const StreamChart = ({
   const labels = groups.map((group, i) => (
     <text
       key={i}
-      x={boundsWidth + group.length * 9.2}
+      x={boundsWidth + group.length * 10}
       y={yScale(series[i][series[i].length - 1][1])}
       textAnchor="end"
       alignmentBaseline="middle"
@@ -119,7 +116,7 @@ const StreamChart = ({
 
   return (
     <div>
-      <svg width={width} height={height}>
+      <svg width={`${width}vw`} height={`${height}vh`}>
         <g
           width={boundsWidth}
           height={boundsHeight}
