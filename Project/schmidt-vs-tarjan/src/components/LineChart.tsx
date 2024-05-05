@@ -101,8 +101,8 @@ const LineChart: FC<LineChartProps> = ({ graphTimes, xLabel, labelColors }) => {
           d3.select(this)
             .transition()
             .duration(200)
-            .style("stroke", "black")
-            .style("stroke-width", "3px");
+            .style("stroke", "white")
+            .style("stroke-width", "2px");
         })
         .on("mousemove", function (event, d) {
           const idx = times.indexOf(d);
@@ -138,7 +138,7 @@ const LineChart: FC<LineChartProps> = ({ graphTimes, xLabel, labelColors }) => {
           d3.select(this)
             .transition()
             .duration(200)
-            .style("stroke", "black")
+            .style("stroke", "white")
             .style("stroke-width", "0px");
         });
     };
