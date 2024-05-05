@@ -44,7 +44,7 @@ const Switcher = ({
   };
 
   return (
-    <div className="w-3/4 pt-24 flex flex-col items-center h-screen">
+    <div className="w-3/4 pt-24 flex flex-col items-center min-h-screen">
       <h1 className="text-3xl font-bold">{header}</h1>
       <p className="my-4">{description}</p>
       <label className="toggle-switch z-10">

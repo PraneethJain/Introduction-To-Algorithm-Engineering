@@ -1,7 +1,6 @@
 import { getGraphTimes } from "@/lib";
 import { TimeDatas } from "@/lib";
 import { Switcher } from "@/components/Switcher";
-import { Roboto } from "next/font/google";
 import { Poppins } from "next/font/google";
 
 const poppins = Poppins({
