@@ -45,7 +45,7 @@ const LineChart: FC<LineChartProps> = ({ graphTimes, xLabel }) => {
     const chartWidth = parseFloat(d3.select(chartRef.current).style("width"));
     const chartHeight = parseFloat(d3.select(chartRef.current).style("height"));
 
-    const margin = { top: 10, right: 50, bottom: 45, left: 40 };
+    const margin = { top: 10, right: 60, bottom: 45, left: 40 };
     const width = chartWidth - margin.left - margin.right;
     const height = chartHeight - margin.top - margin.bottom;
 
