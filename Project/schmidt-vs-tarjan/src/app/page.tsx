@@ -2,6 +2,24 @@ import { getGraphTimes } from "@/lib";
 import { XLabel } from "@/types";
 import { TimeDatas } from "@/lib";
 import { LineChart } from "@/components/LineChart";
+import { StreamGraph } from "@/components/StreamChart";
+
+
+const toStreamData = (timeDatas: TimeDatas) => {
+  const size = timeDatas.xData.length - 1;
+  let data = [];
+  for (let i = 0; i < size; ++i) {
+    data.push({
+      x: timeDatas.xData[i],
+      groupA: timeDatas.tarjanTime[i],
+      groupB: timeDatas.schmidtTime[i],
+      groupC: timeDatas.schmidtFindTime[i],
+      groupD: timeDatas.schmidtCheckTime[i],
+    });
+  }
+
+  return data;
+};
 
 export default async function Home() {
   const completeTimes: TimeDatas = await getGraphTimes(XLabel.Complete);
@@ -10,12 +28,13 @@ export default async function Home() {
 
   return (
     <div className="grid justify-items-center bg-black text-white">
-      <LineChart graphTimes={densityTimes} xLabel={XLabel.Density}></LineChart>
-      <LineChart
-        graphTimes={completeTimes}
-        xLabel={XLabel.Complete}
-      ></LineChart>
-      <LineChart graphTimes={bridgeTimes} xLabel={XLabel.Bridge}></LineChart>
+      <StreamGraph
+        data={toStreamData(completeTimes)}
+        width={600}
+        height={400}
+      />
+      <StreamGraph data={toStreamData(bridgeTimes)} width={600} height={400} />
+      <StreamGraph data={toStreamData(densityTimes)} width={600} height={400} />
     </div>
   );
 }
