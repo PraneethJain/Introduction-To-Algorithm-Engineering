@@ -8,25 +8,25 @@ export default async function Home() {
   const bridgeTimes: TimeDatas = await getGraphTimes("Bridge");
 
   return (
-    <div className="grid justify-items-center bg-black text-white">
+    <div className="grid justify-items-center bg-black text-white text-justify">
       <Switcher
         timeDatas={densityTimes}
-        header="Increasing Density with Constant n + m"
-        description="density description"
+        header="Increasing Density with Constant N + M"
+        description="This plot analyses the dependence of the run time for the algorithms on the density of the graph. To generate graphs of this kind, we have kept N + M = k constant where N and M are the number of vertices and edges respectively. Then, iterating i from 2 to 51, which denotes the density, we used the formulae N = (i - 200 + sqrt((200 - i)^2 + 800ki)) / 2i and M = k - N to get a pair N and M. Using genrang we generated a random graph with the above parameters."
         xLabel="Density (%)"
       />
 
       <Switcher
         timeDatas={completeTimes}
         header="Complete Graphs with Increasing Vertices"
-        description="complete description"
+        description="Theoretically we know that the run times for both the algorithms is O(N + M) where N and M are the number of vertices and edges respectively. For a complete graph, M = Nc2 which is approximately N^2. Therefore the run time is O(N + N^2) or O(N^2). This run time can be verified using the plots. To generate the graphs for this case, we used genrang to generate a random graph with N increasing from 100 to 10000, with probability of choosing each edge P set to 1. This ensures the graph contains all possible edges, that is a complete graph."
         xLabel="Vertices"
       />
 
       <Switcher
         timeDatas={bridgeTimes}
-        header="Increasing bridges with constant n + m"
-        description="bridges description"
+        header="Increasing Bridges with Constant N + M"
+        description="This plot analyses the dependence of the run time for the algorithms on the number of bridges in the graph. To generate graphs of this kind, we have kept N + M = k constant where N and M are the number of vertices and edges respectively. Then, iterating b from 100000 to 1350000, which denotes the number of bridges in the graph, we calculated N = (k - b) / 2 and M = k - N. We then divided the N vertices into b + 1 simple cycles of roughly the same size and connected them using single edge bridges. It can be easily verified that in such a graph, M = N + b."
         xLabel="Bridges (1e4)"
       />
     </div>
