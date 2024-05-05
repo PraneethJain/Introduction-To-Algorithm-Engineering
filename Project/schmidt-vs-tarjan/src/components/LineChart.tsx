@@ -28,7 +28,7 @@ const LineChart: FC<LineChartProps> = ({ graphTimes, xLabel }) => {
       xAxisLabel = "Vertices";
       break;
     case XLabel.Bridge:
-      description = "Increasing bridges with constant n + m";
+      headingText = "Increasing bridges with constant n + m";
       description = "";
       xAxisLabel = "Bridges (* 1e4)";
       break;
