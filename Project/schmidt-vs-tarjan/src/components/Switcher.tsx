@@ -44,7 +44,7 @@ const Switcher = ({
   };
 
   return (
-    <div className="w-3/4 flex flex-col justify-center items-center">
+    <div className="w-3/4 pt-24 flex flex-col items-center h-screen">
       <h1 className="text-3xl font-bold">{header}</h1>
       <p className="my-4">{description}</p>
       <button className="" onClick={() => setToggle(!curToggle)}>
@@ -58,8 +58,8 @@ const Switcher = ({
         />
       ) : (
         <StreamChart
-          width={600}
-          height={400}
+          width={800}
+          height={600}
           data={toStreamData(timeDatas)}
           labelColors={labelColors}
           xLabel={xLabel}

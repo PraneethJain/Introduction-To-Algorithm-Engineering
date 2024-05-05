@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import * as d3 from "d3";
 import { curveCatmullRom } from "d3";
 
-const MARGIN = { top: 30, right: 120, bottom: 50, left: 50 };
+const MARGIN = { top: 30, right: 150, bottom: 50, left: 50 };
 
 type StreamChartProps = {
   width: number;
@@ -82,11 +82,11 @@ const StreamChart = ({
   const labels = groups.map((group, i) => (
     <text
       key={i}
-      x={boundsWidth + group.length * 7}
+      x={boundsWidth + group.length * 9.2}
       y={yScale(series[i][series[i].length - 1][1])}
       textAnchor="end"
       alignmentBaseline="middle"
-      fontSize={12}
+      fontSize={16}
       fill={colorScale(group)}
     >
       {group}
@@ -132,7 +132,7 @@ const StreamChart = ({
             x={boundsWidth / 2}
             y={boundsHeight + MARGIN.bottom - 10}
             textAnchor="middle"
-            fontSize={14}
+            fontSize={18}
             fill="white"
           >
             {xLabel}
