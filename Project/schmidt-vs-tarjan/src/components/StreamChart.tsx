@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import * as d3 from "d3";
 import { curveCatmullRom } from "d3";
 
-const MARGIN = { top: 30, right: 30, bottom: 50, left: 50 };
+const MARGIN = { top: 30, right: 120, bottom: 50, left: 50 };
 
 type StreamGraphProps = {
   width: number;
@@ -11,48 +11,47 @@ type StreamGraphProps = {
 };
 
 const StreamGraph = ({ width, height, data }: StreamGraphProps) => {
-  console.log(data);
-  // bounds = area inside the graph axis = calculated by substracting the margins
+  const labelColors = {
+    TarjanTime: "#FAA752",
+    "Schmidt Time": "#32C7FC",
+    "Schmidt Find Time": "#A9FB54",
+    "Schmidt Check Time": "#E53BFF",
+  };
   const boundsWidth = width - MARGIN.right - MARGIN.left;
   const boundsHeight = height - MARGIN.top - MARGIN.bottom;
 
-  const groups = ["groupA", "groupB", "groupC", "groupD"];
+  const groups = Object.keys(data[0]).filter((key) => key !== "x");
 
-  // Data Wrangling: stack the data
   const stackSeries = d3
     .stack()
     .keys(groups)
     .order(d3.stackOrderNone)
     .offset(d3.stackOffsetSilhouette);
+
   const series = stackSeries(data);
 
-  // Y axis
-  const topYValues = series.flatMap((s) => s.map((d) => d[1])); // Extract the upper values of each data point in the stacked series
+  const topYValues = series.flatMap((s) => s.map((d) => d[1]));
   const yMax = Math.max(...topYValues);
-
-  const bottomYValues = series.flatMap((s) => s.map((d) => d[0])); // Extract the upper values of each data point in the stacked series
+  const bottomYValues = series.flatMap((s) => s.map((d) => d[0]));
   const yMin = Math.min(...bottomYValues);
 
   const yScale = useMemo(() => {
     return d3.scaleLinear().domain([yMin, yMax]).range([boundsHeight, 0]);
-  }, [data, height]);
+  }, [boundsHeight, yMin, yMax]);
 
-  // X axis
   const [xMin, xMax] = d3.extent(data, (d) => d.x);
   const xScale = useMemo(() => {
     return d3
       .scaleLinear()
       .domain([xMin || 0, xMax || 0])
       .range([0, boundsWidth]);
-  }, [data, width]);
+  }, [boundsWidth, xMin, xMax]);
 
-  // Color
   const colorScale = d3
     .scaleOrdinal<string>()
     .domain(groups)
-    .range(["#e0ac2b", "#e85252", "#6689c6", "#9a6fb0", "#a53253"]);
+    .range(Object.values(labelColors));
 
-  // Build the shapes
   const areaBuilder = d3
     .area<any>()
     .x((d) => {
@@ -77,6 +76,20 @@ const StreamGraph = ({ width, height, data }: StreamGraphProps) => {
       />
     );
   });
+
+  const labels = groups.map((group, i) => (
+    <text
+      key={i}
+      x={boundsWidth + group.length * 7}
+      y={yScale(series[i][series[i].length - 1][1])}
+      textAnchor="end"
+      alignmentBaseline="middle"
+      fontSize={12}
+      fill={colorScale(group)}
+    >
+      {group}
+    </text>
+  ));
 
   const grid = xScale.ticks(5).map((value, i) => (
     <g key={i}>
@@ -112,6 +125,7 @@ const StreamGraph = ({ width, height, data }: StreamGraphProps) => {
         >
           {grid}
           <g className="container">{allPath}</g>
+          <g>{labels}</g>
         </g>
       </svg>
     </div>

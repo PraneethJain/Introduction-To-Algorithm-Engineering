@@ -4,17 +4,16 @@ import { TimeDatas } from "@/lib";
 import { LineChart } from "@/components/LineChart";
 import { StreamGraph } from "@/components/StreamChart";
 
-
 const toStreamData = (timeDatas: TimeDatas) => {
   const size = timeDatas.xData.length - 1;
   let data = [];
   for (let i = 0; i < size; ++i) {
     data.push({
       x: timeDatas.xData[i],
-      groupA: timeDatas.tarjanTime[i],
-      groupB: timeDatas.schmidtTime[i],
-      groupC: timeDatas.schmidtFindTime[i],
-      groupD: timeDatas.schmidtCheckTime[i],
+      tarjanTime: timeDatas.tarjanTime[i],
+      schmidtTime: timeDatas.schmidtTime[i],
+      schmidtFindTime: timeDatas.schmidtFindTime[i],
+      schmidtCheckTime: timeDatas.schmidtCheckTime[i],
     });
   }
 
