@@ -22,12 +22,15 @@ export default async function Home() {
           " grid justify-items-center bg-black text-white text-justify"
         }
       >
-        <div className="h-screen flex flex-col justify-center items-center">
-          <h1 className="text-8xl text-center">
+        <div className="h-screen flex flex-col justify-center items-center text-center">
+          <h1 className="text-8xl">
             Introduction to <br /> Algorithm Engineering
           </h1>
+          <h2 className="text-6xl pt-8">
+            Biconnectivity Algorithms of <br /> Tarjan and Schmidt
+          </h2>
           <h2 className="text-6xl py-12">Team 7</h2>
-          <div className="text-3xl flex flex-col justify-between text-center h-24">
+          <div className="text-3xl flex flex-col justify-between h-24">
             <h3>Devika Bej</h3>
             <h3>Moida Praneeth Jain</h3>
           </div>
