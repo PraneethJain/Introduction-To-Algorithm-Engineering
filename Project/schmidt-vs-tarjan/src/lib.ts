@@ -1,8 +1,7 @@
 import { promises as fs } from "fs";
 import type { TimeDatas } from "@/types";
-import { XLabel } from "@/types";
 
-const getGraphTimes = async (xLabel: XLabel) => {
+const getGraphTimes = async (xLabel: string) => {
   const file = await fs.readFile(
     process.cwd() + `/src/data/${xLabel}.txt`,
     "utf8"
@@ -31,13 +30,13 @@ const getGraphTimes = async (xLabel: XLabel) => {
         graphTimes.m.push(y);
 
         switch (xLabel) {
-          case XLabel.Complete:
+          case "Complete":
             graphTimes.xData.push(x);
             break;
-          case XLabel.Density:
+          case "Density":
             graphTimes.xData.push(Math.round((200 * y) / (x * (x - 1))));
             break;
-          case XLabel.Bridge:
+          case "Bridge":
             graphTimes.xData.push((y - x) / 10000);
             break;
         }

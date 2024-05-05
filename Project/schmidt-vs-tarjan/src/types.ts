@@ -1,9 +1,3 @@
-enum XLabel {
-  Density = "Density",
-  Complete = "Complete",
-  Bridge = "Bridge",
-}
-
 type TimeDatas = {
   n: number[];
   m: number[];
@@ -14,5 +8,4 @@ type TimeDatas = {
   xData: number[];
 };
 
-export { XLabel };
 export type { TimeDatas };

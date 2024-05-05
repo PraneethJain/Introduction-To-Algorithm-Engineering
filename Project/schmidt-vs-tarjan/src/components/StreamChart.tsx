@@ -4,19 +4,19 @@ import { curveCatmullRom } from "d3";
 
 const MARGIN = { top: 30, right: 120, bottom: 50, left: 50 };
 
-type StreamGraphProps = {
+type StreamChartProps = {
   width: number;
   height: number;
   data: { [key: string]: number }[];
+  labelColors: { [key: string]: string };
 };
 
-const StreamGraph = ({ width, height, data }: StreamGraphProps) => {
-  const labelColors = {
-    TarjanTime: "#FAA752",
-    "Schmidt Time": "#32C7FC",
-    "Schmidt Find Time": "#A9FB54",
-    "Schmidt Check Time": "#E53BFF",
-  };
+const StreamChart = ({
+  width,
+  height,
+  data,
+  labelColors,
+}: StreamChartProps) => {
   const boundsWidth = width - MARGIN.right - MARGIN.left;
   const boundsHeight = height - MARGIN.top - MARGIN.bottom;
 
@@ -132,4 +132,4 @@ const StreamGraph = ({ width, height, data }: StreamGraphProps) => {
   );
 };
 
-export { StreamGraph };
+export { StreamChart };

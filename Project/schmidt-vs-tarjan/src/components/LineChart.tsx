@@ -1,47 +1,19 @@
 "use client";
 import { TimeDatas } from "@/lib";
-import { XLabel } from "@/types";
 import * as d3 from "d3";
 import { FC, useEffect, useRef } from "react";
 
 interface LineChartProps {
   graphTimes: TimeDatas;
-  xLabel: XLabel;
+  xLabel: string;
+  labelColors: { [key: string]: string };
 }
 
-const LineChart: FC<LineChartProps> = ({ graphTimes, xLabel }) => {
+const LineChart: FC<LineChartProps> = ({ graphTimes, xLabel, labelColors }) => {
   const chartRef = useRef(null);
   const legendRef = useRef(null);
 
-  let headingText = "";
-  let description = "";
-  let xAxisLabel = "";
-  switch (xLabel) {
-    case XLabel.Density:
-      headingText = "Increasing Density with Constant n + m";
-      description = "some description yes";
-      xAxisLabel = "Density (%)";
-      break;
-    case XLabel.Complete:
-      headingText = "Complete Graphs with Increasing Vertices";
-      description = "";
-      xAxisLabel = "Vertices";
-      break;
-    case XLabel.Bridge:
-      headingText = "Increasing bridges with constant n + m";
-      description = "";
-      xAxisLabel = "Bridges (* 1e4)";
-      break;
-  }
-
   useEffect(() => {
-    const labelColors = {
-      TarjanTime: "#FAA752",
-      "Schmidt Check Time": "#E53BFF",
-      "Schmidt Find Time": "#A9FB54",
-      "Schmidt Time": "#32C7FC",
-    };
-
     const chartWidth = parseFloat(d3.select(chartRef.current).style("width"));
     const chartHeight = parseFloat(d3.select(chartRef.current).style("height"));
 
@@ -82,7 +54,7 @@ const LineChart: FC<LineChartProps> = ({ graphTimes, xLabel }) => {
       .attr("class", "x-axis-label")
       .attr("x", width / 2)
       .attr("y", height + margin.top + 30)
-      .text(xAxisLabel);
+      .text(xLabel);
 
     // Add y-axis label
     g.append("text")
@@ -136,13 +108,13 @@ const LineChart: FC<LineChartProps> = ({ graphTimes, xLabel }) => {
           const idx = times.indexOf(d);
           let xTooltip = "";
           switch (xLabel) {
-            case XLabel.Density:
+            case "Density (%)":
               xTooltip = `<br/>Density: ${graphTimes.xData[idx]}`;
               break;
-            case XLabel.Complete:
+            case "Vertices":
               xTooltip = "";
               break;
-            case XLabel.Bridge:
+            case "Bridge (1e4)":
               xTooltip = `<br/>No of bridges: ${graphTimes.xData[idx] * 10000}`;
               break;
           }
@@ -227,12 +199,10 @@ const LineChart: FC<LineChartProps> = ({ graphTimes, xLabel }) => {
       })
       .attr("font-size", "0.8vw")
       .text((d) => d);
-  }, [graphTimes, xLabel, xAxisLabel]);
+  }, [graphTimes, xLabel, labelColors]);
 
   return (
     <div className="my-8 w-3/4">
-      <h1 className="text-3xl font-bold">{headingText}</h1>
-      <p className="my-4">{description}</p>
       <div className="flex mt-8 justify-evenly">
         <svg
           height="50vh"
