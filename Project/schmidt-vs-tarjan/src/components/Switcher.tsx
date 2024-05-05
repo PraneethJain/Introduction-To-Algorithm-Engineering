@@ -47,9 +47,13 @@ const Switcher = ({
     <div className="w-3/4 pt-24 flex flex-col items-center h-screen">
       <h1 className="text-3xl font-bold">{header}</h1>
       <p className="my-4">{description}</p>
-      <button className="py-2 px-8 bg-gray-900 hover:bg-gray-800 active:bg-gray-700 rounded" onClick={() => setToggle(!curToggle)}>
-        Toggle
-      </button>
+      <label className="toggle-switch z-10">
+        <input type="checkbox" onClick={() => setToggle(!curToggle)}></input>
+        <div className="toggle-switch-background">
+          <div className="toggle-switch-handle"></div>
+        </div>
+      </label>
+
       {curToggle ? (
         <LineChart
           graphTimes={timeDatas}
