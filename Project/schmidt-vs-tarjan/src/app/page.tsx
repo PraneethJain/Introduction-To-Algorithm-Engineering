@@ -47,17 +47,18 @@ export default async function Home() {
             algorithms, as this depends on a lot of factors such as
             implementation, processor, etc and not just the algorithm itself.
           </p>
-
           <h2 className="text-6xl font-medium my-12">Implementation Details</h2>
           <h3 className="text-5xl my-6">Jen Schmidt Algorithm</h3>
           <p className="text-xl">
             In the implementation for this algorithm, there are three main
             functions:
-            <ul>
-              <li>DFS</li>
-              <li>Chain Decomposition</li>
-              <li>Make Components</li>
-            </ul>
+          </p>
+          <ul className="text-xl">
+            <li>DFS</li>
+            <li>Chain Decomposition</li>
+            <li>Make Components</li>
+          </ul>
+          <p className="text-xl">
             <br></br> The graphs are all single connected components with N
             vertices and M edges. <br></br>
             <br></br> DFS: <br></br> A recursive implementation of DFS which
