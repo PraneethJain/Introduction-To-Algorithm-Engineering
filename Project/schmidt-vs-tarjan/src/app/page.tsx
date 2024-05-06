@@ -9,6 +9,8 @@ const poppins = Poppins({
   subsets: ["latin"],
 });
 
+
+
 export default async function Home() {
   const completeTimes: TimeDatas = await getGraphTimes("Complete");
   const densityTimes: TimeDatas = await getGraphTimes("Density");

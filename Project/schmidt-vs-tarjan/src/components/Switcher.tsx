@@ -6,6 +6,12 @@ import type { TimeDatas } from "@/types";
 import { useState } from "react";
 import "katex/dist/katex.min.css";
 import Latex from "react-latex-next";
+import { Roboto } from "next/font/google";
+
+const roboto = Roboto({
+  weight: ["100", "300", "400", "500", "900"],
+  subsets: ["latin"],
+});
 
 const toStreamData = (timeDatas: TimeDatas) => {
   const size = timeDatas.xData.length - 1;
@@ -46,7 +52,12 @@ const Switcher = ({
   };
 
   return (
-    <div className="w-3/4 pt-24 flex flex-col items-center min-h-screen">
+    <div
+      className={
+        "w-3/4 pt-24 flex flex-col items-center min-h-screen " +
+        roboto.className
+      }
+    >
       <h1 className="text-3xl font-bold">{header}</h1>
       <div className="my-4">
         <Latex>{description}</Latex>
