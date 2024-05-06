@@ -45,10 +45,10 @@ const Switcher = ({
   const [curToggle, setToggle] = useState(true);
 
   const labelColors = {
-    TarjanTime: "#FAA752",
-    "Schmidt Time": "#32C7FC",
-    "Schmidt Find Time": "#A9FB54",
-    "Schmidt Check Time": "#E53BFF",
+    TarjanTime: "#FF8202",
+    "Schmidt Time": "#0087EE",
+    "Schmidt Find Time": "#28AC00",
+    "Schmidt Check Time": "#DA06AC",
   };
 
   return (
