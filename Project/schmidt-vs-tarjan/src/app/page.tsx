@@ -59,46 +59,44 @@ export default async function Home() {
             <li>Make Components</li>
           </ul>
           <p className="text-xl">
-            <br></br> The graphs are all single connected components with N
-            vertices and M edges. <br></br>
-            <br></br> DFS: <br></br> A recursive implementation of DFS which
-            keeps track of the in times for all the nodes and also the order in
-            which vertices are visited. <br></br> This function also builds a
-            tree dfds_tree which has the edges for the DFS tree pointing towards
-            the root. <br></br> Run time = O(N + M) <br></br>
-            <br></br> Chain Decomposition: <br></br> For each vertex in the
-            graph in the DFS order, go through each of its edges. <br></br>{" "}
-            First check if the edge is in the DFS tree. If not, then check if
-            for a non tree edge, is it directed towards the root. If not, then
-            it is a back edge. <br></br> Follow this back edge till an edge
-            whose endpoint was visited before is reached. This completes a
-            chain. Along with this, a record is kept for all the DFS tree edges
-            which are visited. <br></br> At the end of making all such chains,
-            the unvisited DFS tree edges aka the bridges are also added.{" "}
-            <br></br> This chain decomposition gets returned. <br></br> Run time
-            = O(M) + O(N) <br></br> [chain decomposition visits edges of the
-            graph and the loop for adding bridges visits edges of the DFS tree]{" "}
-            <br></br>
-            <br></br> Make Components: <br></br> This function works on the
-            following ideas- <br></br> Each cyclic chain forms a new component
-            (in the paper, having multiple cyclic chain implies
-            non-biconnectivity implying multiple biconnected components){" "}
-            <br></br> Each acyclic chain essentially attaches to one of the
-            cyclic chains or an acyclic chain attached to it and becomes a part
-            of that component. (observed from simulating the algorithm by hand){" "}
-            <br></br>
+            <br /> The graphs are all single connected components with N
+            vertices and M edges. <br />
+            <br /> DFS: <br /> A recursive implementation of DFS which keeps
+            track of the in times for all the nodes and also the order in which
+            vertices are visited. <br /> This function also builds a tree
+            dfds_tree which has the edges for the DFS tree pointing towards the
+            root. <br /> Run time = O(N + M) <br />
+            <br /> Chain Decomposition: <br /> For each vertex in the graph in
+            the DFS order, go through each of its edges. <br /> First check if
+            the edge is in the DFS tree. If not, then check if for a non tree
+            edge, is it directed towards the root. If not, then it is a back
+            edge. <br /> Follow this back edge till an edge whose endpoint was
+            visited before is reached. This completes a chain. Along with this,
+            a record is kept for all the DFS tree edges which are visited.{" "}
+            <br /> At the end of making all such chains, the unvisited DFS tree
+            edges aka the bridges are also added. <br /> This chain
+            decomposition gets returned. <br /> Run time = O(M) + O(N) <br />{" "}
+            [chain decomposition visits edges of the graph and the loop for
+            adding bridges visits edges of the DFS tree] <br />
+            <br /> Make Components: <br /> This function works on the following
+            ideas- <br /> Each cyclic chain forms a new component (in the paper,
+            having multiple cyclic chain implies non-biconnectivity implying
+            multiple biconnected components) <br /> Each acyclic chain
+            essentially attaches to one of the cyclic chains or an acyclic chain
+            attached to it and becomes a part of that component. (observed from
+            simulating the algorithm by hand) <br />
             For an acyclic chain, the two points would belong to at most one
-            common BCC (again an observation) <br></br> The bridge chains become
-            their own BCCs <br></br> Now to the working of the function-{" "}
-            <br></br> For each cyclic chain, create a new component and add the
-            index of the BCC to each vertex. <br></br>
+            common BCC (again an observation) <br /> The bridge chains become
+            their own BCCs <br /> Now to the working of the function- <br /> For
+            each cyclic chain, create a new component and add the index of the
+            BCC to each vertex. <br />
             For each acyclic chain, push the edges into the BCC index which is
-            common to both its endpoints. <br></br> For each bridge chain, make
-            it a separate BCC. <br></br> Run time = O(3M) <br></br> [each loop
-            required traversing at most all the edges of the graph]
+            common to both its endpoints. <br /> For each bridge chain, make it
+            a separate BCC. <br /> Run time = O(3M) <br /> [each loop required
+            traversing at most all the edges of the graph]
           </p>
           <h3 className="text-5xl my-6">Tarjan Hopcroft Algorithm</h3>
-          <p className="text-xl">Insert description here</p>
+          <p className="text-xl"></p>
         </div>
 
         <Switcher
