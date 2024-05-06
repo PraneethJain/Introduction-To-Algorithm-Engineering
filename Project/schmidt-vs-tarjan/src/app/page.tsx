@@ -31,8 +31,8 @@ export default async function Home() {
           </h2>
           <h2 className="text-6xl py-12">Team 7</h2>
           <div className="text-3xl flex flex-col justify-between h-24">
-            <h3>Devika Bej</h3>
-            <h3>Moida Praneeth Jain</h3>
+            <h3>Devika Bej - 2022111037</h3>
+            <h3>Moida Praneeth Jain - 2022101093</h3>
           </div>
         </div>
 
