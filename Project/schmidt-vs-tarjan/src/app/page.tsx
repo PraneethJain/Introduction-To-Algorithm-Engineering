@@ -38,7 +38,15 @@ export default async function Home() {
 
         <div className="min-h-screen px-8">
           <h2 className="text-6xl font-medium mb-6">Problem Description</h2>
-          <p className="text-xl">Insert problem description here</p>
+          <p className="text-xl">
+            The algorithms proposed by Jen-Schmidt and Tarjan-Hopcroft are both
+            used to check for biconnectivity of an undirected unweighted graph
+            and by extension, to get the biconnected components of such a graph.
+            Both these algorithms have a theoretical run time of O(N + M). This
+            project aims to compare the practical run times for both the
+            algorithms, as this depends on a lot of factors such as
+            implementation, processor, etc and not just the algorithm itself.
+          </p>
 
           <h2 className="text-6xl font-medium my-12">Implementation Details</h2>
           <h3 className="text-5xl my-6">Jen Schmidt Algorithm</h3>
