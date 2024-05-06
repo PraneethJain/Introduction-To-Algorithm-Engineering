@@ -9,8 +9,6 @@ const poppins = Poppins({
   subsets: ["latin"],
 });
 
-
-
 export default async function Home() {
   const completeTimes: TimeDatas = await getGraphTimes("Complete");
   const densityTimes: TimeDatas = await getGraphTimes("Density");
@@ -29,7 +27,7 @@ export default async function Home() {
             Introduction to <br /> Algorithm Engineering
           </h1>
           <h2 className="text-6xl pt-8">
-            Biconnectivity Algorithms of <br /> Tarjan and Schmidt
+            Biconnectivity Algorithms of <br /> Tarjan-Hopcroft and Jen-Schmidt
           </h2>
           <h2 className="text-6xl py-12">Team 7</h2>
           <div className="text-3xl flex flex-col justify-between h-24">
@@ -38,13 +36,54 @@ export default async function Home() {
           </div>
         </div>
 
-        <div className="min-h-screen">
+        <div className="min-h-screen px-8">
           <h2 className="text-6xl font-medium mb-6">Problem Description</h2>
           <p className="text-xl">Insert problem description here</p>
 
           <h2 className="text-6xl font-medium my-12">Implementation Details</h2>
-          <h3 className="text-5xl my-6">Jens Schmidt Algorithm</h3>
-          <p className="text-xl">Insert description here</p>
+          <h3 className="text-5xl my-6">Jen Schmidt Algorithm</h3>
+          <p className="text-xl">
+            In the implementation for this algorithm, there are three main
+            functions: <br></br> DFS <br></br> Chain Decomposition <br></br>{" "}
+            Make Components <br></br>
+            <br></br> The graphs are all single connected components with N
+            vertices and M edges. <br></br>
+            <br></br> DFS: <br></br> A recursive implementation of DFS which
+            keeps track of the in times for all the nodes and also the order in
+            which vertices are visited. <br></br> This function also builds a
+            tree dfds_tree which has the edges for the DFS tree pointing towards
+            the root. <br></br> Run time = O(N + M) <br></br>
+            <br></br> Chain Decomposition: <br></br> For each vertex in the
+            graph in the DFS order, go through each of its edges. <br></br>{" "}
+            First check if the edge is in the DFS tree. If not, then check if
+            for a non tree edge, is it directed towards the root. If not, then
+            it is a back edge. <br></br> Follow this back edge till an edge
+            whose endpoint was visited before is reached. This completes a
+            chain. Along with this, a record is kept for all the DFS tree edges
+            which are visited. <br></br> At the end of making all such chains,
+            the unvisited DFS tree edges aka the bridges are also added.{" "}
+            <br></br> This chain decomposition gets returned. <br></br> Run time
+            = O(M) + O(N) <br></br> [chain decomposition visits edges of the
+            graph and the loop for adding bridges visits edges of the DFS tree]{" "}
+            <br></br>
+            <br></br> Make Components: <br></br> This function works on the
+            following ideas- <br></br> Each cyclic chain forms a new component
+            (in the paper, having multiple cyclic chain implies
+            non-biconnectivity implying multiple biconnected components){" "}
+            <br></br> Each acyclic chain essentially attaches to one of the
+            cyclic chains or an acyclic chain attached to it and becomes a part
+            of that component. (observed from simulating the algorithm by hand){" "}
+            <br></br>
+            For an acyclic chain, the two points would belong to at most one
+            common BCC (again an observation) <br></br> The bridge chains become
+            their own BCCs <br></br> Now to the working of the function-{" "}
+            <br></br> For each cyclic chain, create a new component and add the
+            index of the BCC to each vertex. <br></br>
+            For each acyclic chain, push the edges into the BCC index which is
+            common to both its endpoints. <br></br> For each bridge chain, make
+            it a separate BCC. <br></br> Run time = O(3M) <br></br> [each loop
+            required traversing at most all the edges of the graph]
+          </p>
           <h3 className="text-5xl my-6">Tarjan Hopcroft Algorithm</h3>
           <p className="text-xl">Insert description here</p>
         </div>
