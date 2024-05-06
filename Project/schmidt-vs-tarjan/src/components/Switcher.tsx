@@ -4,6 +4,8 @@ import { LineChart } from "@/components/LineChart";
 import { StreamChart } from "@/components/StreamChart";
 import type { TimeDatas } from "@/types";
 import { useState } from "react";
+import "katex/dist/katex.min.css";
+import Latex from "react-latex-next";
 
 const toStreamData = (timeDatas: TimeDatas) => {
   const size = timeDatas.xData.length - 1;
@@ -46,7 +48,9 @@ const Switcher = ({
   return (
     <div className="w-3/4 pt-24 flex flex-col items-center min-h-screen">
       <h1 className="text-3xl font-bold">{header}</h1>
-      <p className="my-4">{description}</p>
+      <div className="my-4">
+        <Latex>{description}</Latex>
+      </div>
       <label className="toggle-switch z-10">
         <input type="checkbox" onClick={() => setToggle(!curToggle)}></input>
         <div className="toggle-switch-background">
