@@ -36,7 +36,7 @@ export default async function Home() {
           </div>
         </div>
 
-        <div className="min-h-screen px-8">
+        <div className="min-h-screen w-3/4">
           <h2 className="text-6xl font-medium mb-6">Problem Description</h2>
           <p className="text-xl">
             The algorithms proposed by Jen-Schmidt and Tarjan-Hopcroft are both
@@ -52,8 +52,12 @@ export default async function Home() {
           <h3 className="text-5xl my-6">Jen Schmidt Algorithm</h3>
           <p className="text-xl">
             In the implementation for this algorithm, there are three main
-            functions: <br></br> DFS <br></br> Chain Decomposition <br></br>{" "}
-            Make Components <br></br>
+            functions:
+            <ul>
+              <li>DFS</li>
+              <li>Chain Decomposition</li>
+              <li>Make Components</li>
+            </ul>
             <br></br> The graphs are all single connected components with N
             vertices and M edges. <br></br>
             <br></br> DFS: <br></br> A recursive implementation of DFS which
