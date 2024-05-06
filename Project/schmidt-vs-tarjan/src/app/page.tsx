@@ -96,7 +96,25 @@ export default async function Home() {
             traversing at most all the edges of the graph]
           </p>
           <h3 className="text-5xl my-6">Tarjan Hopcroft Algorithm</h3>
-          <p className="text-xl"></p>
+          <p className="text-xl">
+            <br />
+            A depth first search is performed, and for each vertex the following
+            properties are calculated: <br />
+            1. The node&apos;s discovery time during the DFS traversal
+            <br />
+            2. The least depth (low) of every descendent of the node (including
+            itself)
+            <br />
+            <br />
+            If the low time of any descendant of the current vertex is lower
+            than the discovery time of the current vertex in the DFS traversal,
+            this indicates that an articulation point has been found. We cut the
+            graph at this point, and store the associated biconnected component
+            as a vector of edges. To keep track of the edges, they are pushed
+            onto a stack. Edges are popped from this stack whenever an
+            articulation point is found. The algorithm implemented runs in
+            O(M+N) time.
+          </p>
         </div>
 
         <Switcher
