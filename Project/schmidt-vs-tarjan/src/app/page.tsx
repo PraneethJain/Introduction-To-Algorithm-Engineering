@@ -64,7 +64,7 @@ export default async function Home() {
             <br /> DFS: <br /> A recursive implementation of DFS which keeps
             track of the in times for all the nodes and also the order in which
             vertices are visited. <br /> This function also builds a tree
-            dfds_tree which has the edges for the DFS tree pointing towards the
+            dfs_tree which has the edges for the DFS tree pointing towards the
             root. <br /> Run time = O(N + M) <br />
             <br /> Chain Decomposition: <br /> For each vertex in the graph in
             the DFS order, go through each of its edges. <br /> First check if
